@@ -260,7 +260,7 @@ def get_country_metric_value(df, country, metric):
     Args:
         df (pd.DataFrame): Cleaned dataframe from clean_and_convert_types()
         country (str): Country name (must exist in Country column)
-        metric (str): One of get_available_metrics()
+        metric (str): One of get_available_metrics().keys()
     
     Returns:
         dict: {'metric_value': float (0-100), 'respondents': int}
@@ -271,19 +271,287 @@ def get_country_metric_value(df, country, metric):
         >>> print(f"Treatment rate in US: {result['metric_value']}% ({result['respondents']} respondents)")
         Treatment rate in US: 50.2% (1234 respondents)
     """
-    choropleth_df = get_choropleth_data(df, metric)
-    country_row = choropleth_df[choropleth_df['Country'] == country]
+    metric_mappings = get_available_metrics()
+    if metric not in metric_mappings:
+        raise ValueError(f"Metric '{metric}' not in available metrics: {list(metric_mappings.keys())}")
     
-    if country_row.empty:
+    column, target_value = metric_mappings[metric]
+    
+    # Filter to country data
+    country_df = df[df['Country'] == country]
+    
+    if country_df.empty:
         return {'metric_value': 0.0, 'respondents': 0}
     
+    # Calculate metric for this country only
+    count_yes = (country_df[column] == target_value).sum()
+    total = len(country_df)
+    percentage = (count_yes / total * 100) if total > 0 else 0
+    
     return {
-        'metric_value': country_row['metric_value'].values[0],
-        'respondents': country_row['respondents'].values[0]
+        'metric_value': round(percentage, 2),
+        'respondents': total
     }
 
 
-if __name__ == "__main__":
-    # Run analysis when script is executed directly
-    report = analyze_data_quality()
-    print_quality_report(report)
+# ============================================================================
+# SECTION 5: RADAR CHART DATA AGGREGATION
+# ============================================================================
+
+def get_radar_data(df, country1, country2=None):
+    """
+    Prepare data for radar chart visualization (4 mental health metrics).
+    
+    Metrics included: growing stress, mood swings, coping struggles, social weakness.
+    
+    Args:
+        df (pd.DataFrame): Cleaned dataframe from clean_and_convert_types()
+        country1 (str): First country name
+        country2 (str, optional): Second country name for comparison overlay
+    
+    Returns:
+        dict: Structure for Plotly radar chart with keys:
+              - 'metrics': list of metric names
+              - 'country1': dict with 'name' and 'values' (list of percentages)
+              - 'country2': dict with 'name' and 'values' (or None if not provided)
+    
+    Example:
+        >>> radar_data = get_radar_data(df_clean, 'United States', 'Canada')
+        >>> radar_data
+        {
+            'metrics': ['Growing Stress', 'High Mood Swings', 'Coping Struggles', 'Social Weakness'],
+            'country1': {'name': 'United States', 'values': [33.5, 31.2, 47.5, 31.3]},
+            'country2': {'name': 'Canada', 'values': [33.8, 31.1, 47.2, 31.4]}
+        }
+    """
+    radar_metrics = [
+        'growing_stress_rate',
+        'high_mood_swings_rate',
+        'coping_struggles_rate',
+        'social_weakness_rate'
+    ]
+    
+    metric_labels = [
+        'Growing Stress',
+        'High Mood Swings',
+        'Coping Struggles',
+        'Social Weakness'
+    ]
+    
+    # Get values for country1
+    country1_values = []
+    for metric in radar_metrics:
+        result = get_country_metric_value(df, country1, metric)
+        country1_values.append(result['metric_value'])
+    
+    radar_data = {
+        'metrics': metric_labels,
+        'country1': {
+            'name': country1,
+            'values': country1_values
+        },
+        'country2': None
+    }
+    
+    # Get values for country2 if provided
+    if country2:
+        country2_values = []
+        for metric in radar_metrics:
+            result = get_country_metric_value(df, country2, metric)
+            country2_values.append(result['metric_value'])
+        
+        radar_data['country2'] = {
+            'name': country2,
+            'values': country2_values
+        }
+    
+    return radar_data
+
+
+# ============================================================================
+# SECTION 6: BUTTERFLY CHART DATA AGGREGATION
+# ============================================================================
+
+def get_butterfly_data(df, country1, country2=None):
+    """
+    Prepare data for butterfly chart (employment status vs days indoors).
+    
+    Butterfly chart shows employment status (self-employed vs employed) on two sides,
+    with Days_Indoors categories on the vertical axis. Horizontal bars show percentages
+    within each employment status category.
+    
+    Args:
+        df (pd.DataFrame): Cleaned dataframe from clean_and_convert_types()
+        country1 (str): First country name
+        country2 (str, optional): Second country name for stacked comparison
+    
+    Returns:
+        dict: Structure for Plotly butterfly chart with keys:
+              - 'days_indoors_order': list of Days_Indoors categories in logical order
+              - 'country1': dict with 'name' and nested dicts for 'employed' and 'self_employed'
+                           Each contains percentages per Days_Indoors category
+              - 'country2': dict with same structure (or None if not provided)
+    
+    Example:
+        >>> butterfly_data = get_butterfly_data(df_clean, 'United States')
+        >>> butterfly_data
+        {
+            'days_indoors_order': ['Go out Every day', '1-14 days', '15-30 days', '31-60 days', 'More than 2 months'],
+            'country1': {
+                'name': 'United States',
+                'employed': {'Go out Every day': 33.5, '1-14 days': 28.2, ...},
+                'self_employed': {'Go out Every day': 35.1, '1-14 days': 26.8, ...}
+            },
+            'country2': None
+        }
+    """
+    # Logical order for Days_Indoors (least to most time indoors)
+    days_indoors_order = [
+        'Go out Every day',
+        '1-14 days',
+        '15-30 days',
+        '31-60 days',
+        'More than 2 months'
+    ]
+    
+    def aggregate_butterfly_for_country(country_df):
+        """Helper function to aggregate butterfly data for one country."""
+        employment_types = {
+            'employed': 'No',        # self_employed == 'No'
+            'self_employed': 'Yes'   # self_employed == 'Yes'
+        }
+        
+        result = {}
+        
+        for emp_type, emp_value in employment_types.items():
+            emp_df = country_df[country_df['self_employed'] == emp_value]
+            total_emp = len(emp_df)
+            
+            # Calculate percentages for each Days_Indoors category
+            percentages = {}
+            for day_cat in days_indoors_order:
+                count = (emp_df['Days_Indoors'] == day_cat).sum()
+                pct = (count / total_emp * 100) if total_emp > 0 else 0.0
+                percentages[day_cat] = round(pct, 2)
+            
+            result[emp_type] = percentages
+        
+        return result
+    
+    # Get data for country1
+    country1_df = df[df['Country'] == country1]
+    country1_agg = aggregate_butterfly_for_country(country1_df)
+    
+    butterfly_data = {
+        'days_indoors_order': days_indoors_order,
+        'country1': {
+            'name': country1,
+            'employed': country1_agg['employed'],
+            'self_employed': country1_agg['self_employed']
+        },
+        'country2': None
+    }
+    
+    # Get data for country2 if provided
+    if country2:
+        country2_df = df[df['Country'] == country2]
+        country2_agg = aggregate_butterfly_for_country(country2_df)
+        
+        butterfly_data['country2'] = {
+            'name': country2,
+            'employed': country2_agg['employed'],
+            'self_employed': country2_agg['self_employed']
+        }
+    
+    return butterfly_data
+
+
+# ============================================================================
+# SECTION 7: STACKED BAR CHART DATA AGGREGATION
+# ============================================================================
+
+def get_stacked_bar_data(df, country1, country2=None):
+    """
+    Prepare data for horizontal stacked bar chart (mental health interview vs social weakness).
+    
+    Each bar represents a mental_health_interview response and shows the distribution of 
+    Social_Weakness categories as percentages.
+    
+    Args:
+        df (pd.DataFrame): Cleaned dataframe from clean_and_convert_types()
+        country1 (str): First country name
+        country2 (str, optional): Second country name for stacked display below
+    
+    Returns:
+        dict: Structure for Plotly horizontal stacked bar chart with keys:
+              - 'social_weakness_order': list of Social_Weakness categories in logical order
+              - 'interview_responses': list of mental_health_interview response types
+              - 'country1': dict with 'name' and nested dicts for each mental_health_interview response
+                           Each contains percentages per social weakness category
+              - 'country2': dict with same structure (or None if not provided)
+    
+    Example:
+        >>> stacked_data = get_stacked_bar_data(df_clean, 'United States')
+        >>> stacked_data
+        {
+            'social_weakness_order': ['No', 'Maybe', 'Yes'],
+            'interview_responses': ['No', 'Maybe', 'Yes'],
+            'country1': {
+                'name': 'United States',
+                'No': {'No': 48.1, 'Maybe': 18.5, 'Yes': 19.2},
+                'Maybe': {'No': 45.2, 'Maybe': 20.1, 'Yes': 19.4},
+                'Yes': {'No': 42.3, 'Maybe': 22.1, 'Yes': 18.8}
+            },
+            'country2': None
+        }
+    """
+    # Logical order for Social_Weakness
+    social_weakness_order = ['No', 'Maybe', 'Yes']
+    
+    # Logical order for mental health interview responses
+    interview_responses_order = ['No', 'Maybe', 'Yes']
+    
+    def aggregate_stacked_bar_for_country(country_df):
+        """Helper function to aggregate stacked bar data for one country."""
+        result = {}
+        
+        for response in interview_responses_order:
+            response_df = country_df[country_df['mental_health_interview'] == response]
+            total_response = len(response_df)
+            
+            # Calculate percentages for each social weakness category (in order)
+            percentages = {}
+            for weakness_cat in social_weakness_order:
+                count = (response_df['Social_Weakness'] == weakness_cat).sum()
+                pct = (count / total_response * 100) if total_response > 0 else 0.0
+                percentages[weakness_cat] = round(pct, 2)
+            
+            result[response] = percentages
+        
+        return result
+    
+    # Get data for country1
+    country1_df = df[df['Country'] == country1]
+    country1_agg = aggregate_stacked_bar_for_country(country1_df)
+    
+    stacked_data = {
+        'interview_responses': interview_responses_order,
+        'social_weakness_order': social_weakness_order,
+        'country1': {
+            'name': country1,
+            **country1_agg
+        },
+        'country2': None
+    }
+    
+    # Get data for country2 if provided
+    if country2:
+        country2_df = df[df['Country'] == country2]
+        country2_agg = aggregate_stacked_bar_for_country(country2_df)
+        
+        stacked_data['country2'] = {
+            'name': country2,
+            **country2_agg
+        }
+    
+    return stacked_data
