@@ -1,8 +1,6 @@
 import pandas as pd
-try:
-    from .data_loader import get_data
-except ImportError:
-    from data_loader import get_data
+
+from .data_loader import get_data
 
 
 def analyze_data_quality(df=None):

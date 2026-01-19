@@ -2,7 +2,7 @@ from dash import Dash, html, dcc
 import plotly.express as px
 import pandas as pd
 
-from layouts import create_layout
+from .layouts import create_layout
 
 ## Sample data
 #df = pd.DataFrame({
