@@ -17,6 +17,7 @@ venv/
 # IDE settings
 .vscode/
 .idea/
+.github/
 
 # OS files
 .DS_Store
