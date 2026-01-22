@@ -3,35 +3,26 @@ import plotly.express as px
 import pandas as pd
 
 from .layouts import create_layout
-
-## Sample data
-#df = pd.DataFrame({
-#    "Fruit": ["Apples", "Oranges", "Bananas", "Apples", "Oranges", "Bananas"],
-#    "Amount": [4, 1, 2, 2, 4, 5],
-#    "City": ["SF", "SF", "SF", "NYC", "NYC", "NYC"]
-#})
-#
-## Create Dash app
-#app = Dash(__name__)
-#app.layout = html.Div([
-#    html.H1("Minimal Dash App"),
-#    dcc.Graph(
-#        id='example-graph',
-#        figure=px.bar(df, x="Fruit", y="Amount", color="City", barmode="group")
-#    )
-#])
+from .preprocessing import clean_and_convert_types, get_choropleth_data
+from .figures.choropleth import create_choropleth
 
 app = Dash(
     __name__,
     assets_folder="../assets"
 )
 
-#df = pd.read_csv("data/processed/mental_health_clean.csv")
+# Load and clean data
+df_clean = clean_and_convert_types()
 
+# Generate choropleth data for treatment rate
+choropleth_df = get_choropleth_data(df_clean, 'treatment_rate')
+
+# Create figures
 figures = {
+    'choropleth': create_choropleth(choropleth_df, 'Treatment Rate')
 }
 
-app.layout = create_layout()
+app.layout = create_layout(figures)
 
 # Expose Flask server for Render
 server = app.server
