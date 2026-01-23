@@ -131,18 +131,12 @@ def clean_and_convert_types(df=None):
     else:
         df = df.copy()
     
-    print("\n" + "="*70)
-    print("DATA CLEANING AND TYPE CONVERSION")
-    print("="*70)
-    
     # 1. HANDLE MISSING self_employed (5,202 rows, 1.78%)
     missing_count = df['self_employed'].isnull().sum()
     df['self_employed'] = df['self_employed'].fillna('Unknown')
-    print(f"\n[CLEAN] self_employed: Filled {missing_count} missing values with 'Unknown'")
     
     # 2. DATETIME CONVERSION
     df['Timestamp'] = pd.to_datetime(df['Timestamp'], format='%m/%d/%Y %H:%M')
-    print("[CONVERT] Timestamp -> datetime64")
     
     # 3. CATEGORICAL CONVERSIONS (reduce memory usage)
     categorical_cols = [
@@ -156,14 +150,10 @@ def clean_and_convert_types(df=None):
     for col in categorical_cols:
         if col in df.columns:
             df[col] = df[col].astype('category')
-    
-    print(f"[CONVERT] {len(categorical_cols)} columns -> category")
-    
+        
     # Print summary
-    print(f"\n[RESULT] Final shape: {df.shape}")
     memory_mb = df.memory_usage(deep=True).sum() / 1024**2
-    print(f"[RESULT] Memory usage: {memory_mb:.2f} MB")
-    print("="*70 + "\n")
+
     
     return df
 

@@ -19,21 +19,21 @@
 }
 
 /* Map */
-.map {
-    
-}
+.map {}
 
 
 /* Řádky */
 .row {
     display: flex;
-    height: 45vh;
+    min-height: 45vh;
     margin-bottom: 10px;
 }
 
 /* Základ pro graf */
 .graph {
     padding: 5px;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Velikosti */
@@ -46,6 +46,18 @@
 }
 
 /* Plotly graf musí vyplnit rodiče */
-.graph > div {
-    height: 100%;
+.graph .js-plotly-plot {
+    flex: 1;
+    min-height: 0;
+}
+
+/* Dropdown container */
+.dropdown-container {
+    flex-shrink: 0;
+    padding: 10px 0;
+    z-index: 1000;
+}
+
+.metric-dropdown {
+    width: 250px;
 }

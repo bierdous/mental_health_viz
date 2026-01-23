@@ -37,7 +37,6 @@ def get_data(filepath="data/mental_dataset.csv"):
     # Load CSV
     try:
         _df_cache = pd.read_csv(full_path)
-        print(f"[OK] Loaded dataset: {len(_df_cache)} rows, {len(_df_cache.columns)} columns")
         return _df_cache
     except pd.errors.ParserError as e:
         raise pd.errors.ParserError(f"Failed to parse CSV file: {e}")
