@@ -36,7 +36,7 @@ pip install -r requirements.txt
 
 ## 5. Run the App
 ```bash
-python app.py
+python src/app.py
 ```
 The app will start on `http://127.0.0.1:8050`.
 
