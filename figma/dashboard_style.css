@@ -1,48 +1,3 @@
-/* --- Responsive foundation & design tokens ------------------------------ */
-:root {
-    /* fluid spacing and radii */
-    --space-1: clamp(0.25rem, 0.5vw, 0.5rem);
-    --space-2: clamp(0.5rem, 0.8vw, 0.75rem);
-    --space-3: clamp(0.75rem, 1vw, 1rem);
-    --space-4: clamp(1rem, 1.5vw, 1.5rem);
-    --space-6: clamp(1.25rem, 2vw, 2rem);
-    --radius-s: 4px;
-    --radius-m: 8px;
-    --radius-l: 16px;
-
-    /* fluid typography scale */
-    --fs-xs: clamp(0.75rem, 1vw, 0.875rem);
-    --fs-sm: clamp(0.875rem, 1.2vw, 1rem);
-    --fs-md: clamp(1rem, 1.6vw, 1.125rem);
-    --fs-lg: clamp(1.25rem, 2vw, 1.5rem);
-    --fs-xl: clamp(1.75rem, 3vw, 2.25rem);
-    --fs-xxl: clamp(2.25rem, 4vw, 3rem);
-
-    --left_panel_width: 60vw;
-
-    --font-main: "Roboto", sans-serif;
-}
-
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-}
-
-/* predictable sizing */
-html,
-body {
-    height: 100%;
-}
-
-body {
-    margin: 0;
-    padding: 0;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-}
-
 .dashboard,
 .dashboard * {
     box-sizing: border-box;
@@ -50,13 +5,13 @@ body {
 
 .dashboard {
     background: #f1f1f1;
-    padding: var(--space-6);
+    padding: 50px;
     display: flex;
     flex-direction: row;
-    gap: var(--space-6);
+    gap: 70px;
     align-items: flex-start;
     justify-content: flex-start;
-    height: 100vh;
+    height: 1030px;
     position: relative;
     overflow: hidden;
 }
@@ -65,11 +20,11 @@ body {
     display: flex;
     flex-direction: column;
     gap: 0px;
-    align-items: stretch;
+    align-items: flex-start;
     justify-content: flex-start;
     align-self: stretch;
     flex-shrink: 0;
-    width: var(--left_panel_width);
+    width: 1096.33px;
     position: relative;
     overflow: hidden;
 }
@@ -77,58 +32,53 @@ body {
 .toggles-bar-chart {
     display: flex;
     flex-direction: row;
-    gap: var(--space-6);
-    /* make the row fill its parent vertically */
-    align-items: stretch;
-    /* ensure children may stretch vertically */
-    height: 50%;
-    /* avoid “auto” min-height blocking shrink */
+    gap: 50px;
+    align-items: flex-end;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex: 1;
     position: relative;
-    overflow: visible;
+    overflow: hidden;
 }
 
 .toggles-area {
     display: flex;
     flex-direction: column;
-    /* let this column fill the row height and participate in flex sizing */
-    flex: 1 1 auto;
+    align-items: flex-start;
+    justify-content: space-between;
     align-self: stretch;
-    /* belt-and-suspenders: ensure vertical stretch */
-    min-height: 0;
-    /* important in nested flex/grid to allow shrink */
-    /* Remove fixed width if you want it to share space with the right column:
-     width: 350px;  <-- comment/remove for proportional flexing
-     If you want a minimum width instead, use: */
-    min-width: 350px;
-    /* keeps a floor while still allowing flex growth */
+    flex-shrink: 0;
+    width: 424px;
     position: relative;
-
 }
 
 .title {
+    background: #ffffff;
     display: flex;
     flex-direction: column;
-    gap: var(--space-2);
+    gap: 10px;
     align-items: center;
     justify-content: center;
     align-self: stretch;
     flex: 1;
-    min-height: 40px;
+    min-height: 64px;
     position: relative;
 }
 
 .mental-health {
     color: #000000;
-    text-align: center;
-    font-family: var(--font-main);
+    text-align: left;
+    font-family: "Inter-Medium", sans-serif;
+    font-size: 50px;
+    line-height: 150%;
+    letter-spacing: -0.011000000000000001em;
     font-weight: 500;
-    font-size: var(--fs-xl);
     position: relative;
 }
 
 .toggles {
     background: #ffffff;
-    border-radius: var(--radius-l) var(--radius-l) 0px 0px;
+    border-radius: 4px 4px 0px 0px;
     padding: 16px 16px 0px 16px;
     display: flex;
     flex-direction: column;
@@ -155,7 +105,7 @@ body {
 .selected-countries {
     color: #000000;
     text-align: left;
-    font-family: var(--font-main);
+    font-family: "Roboto-SemiBold", sans-serif;
     font-size: 17.0274600982666px;
     font-weight: 600;
     position: relative;
@@ -202,7 +152,7 @@ body {
 .angola {
     color: #ffffff;
     text-align: left;
-    font-family: var(--font-main);
+    font-family: "Inter-Medium", sans-serif;
     font-size: 15.811213493347168px;
     line-height: 150%;
     letter-spacing: -0.011000000000000001em;
@@ -252,7 +202,7 @@ body {
 .barbados {
     color: #ffffff;
     text-align: left;
-    font-family: var(--font-main);
+    font-family: "Inter-Medium", sans-serif;
     font-size: 15.811213493347168px;
     line-height: 150%;
     letter-spacing: -0.011000000000000001em;
@@ -271,27 +221,56 @@ body {
 }
 
 .metric-selector {
-    display: flex;
-    height: 71.785px;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 7px;
-    flex-shrink: 0;
     align-self: stretch;
+    flex-shrink: 0;
+    height: 71.76px;
+    position: relative;
 }
 
 .mental-health-indicator {
-    color: var(--333333-dark-grey, #333);
-    font-family: var(--font-main);
-    font-size: 17.027px;
-    font-style: normal;
+    color: var(--333333-dark-grey, #333333);
+    text-align: left;
+    font-family: "Inter-SemiBold", sans-serif;
+    font-size: 17.0274600982666px;
     font-weight: 600;
-    line-height: normal;
+    position: absolute;
+    left: 0px;
+    top: 0px;
 }
 
-.dropdown-metric-area {
+.field {
+    background: var(--ffffff-white, #ffffff);
+    border-radius: 7.3px;
+    border-style: solid;
+    border-color: var(--d4d4d4-light-grey, #d4d4d4);
+    border-width: 1.22px;
     width: 100%;
-    font-family: var(--font-main);
+    height: 61.02%;
+    position: absolute;
+    right: 0%;
+    left: 0%;
+    bottom: 0%;
+    top: 38.98%;
+}
+
+.vector {
+    width: 14.59px;
+    height: 7.3px;
+    position: absolute;
+    right: 15.78px;
+    top: calc(50% - -11.55px);
+    overflow: visible;
+}
+
+.select {
+    color: var(--959595-mid-grey-2, #959595);
+    text-align: left;
+    font-family: "Inter-Regular", sans-serif;
+    font-size: 17.0274600982666px;
+    font-weight: 400;
+    position: absolute;
+    left: 14.59px;
+    top: calc(50% - -4.26px);
 }
 
 .map-detail {
@@ -308,7 +287,7 @@ body {
 .map-detail2 {
     color: var(--333333-dark-grey, #333333);
     text-align: left;
-    font-family: var(--font-main);
+    font-family: "Inter-SemiBold", sans-serif;
     font-size: 17.0274600982666px;
     font-weight: 600;
     position: relative;
@@ -338,7 +317,7 @@ body {
 .label {
     color: var(--labels-secondary, rgba(0, 0, 0, 0.5));
     text-align: right;
-    font-family: var(--font-main);
+    font-family: "SfPro-Medium", sans-serif;
     font-size: 18.056392669677734px;
     line-height: 22.22px;
     font-weight: 500;
@@ -382,7 +361,7 @@ body {
 .label2 {
     color: var(--labels-vibrant-use-plus-lighter-or-darker-primary, #4c4c4c);
     text-align: center;
-    font-family: var(--font-main);
+    font-family: "SfPro-Medium", sans-serif;
     font-size: 18.079193115234375px;
     line-height: 22.22px;
     font-weight: 500;
@@ -394,54 +373,70 @@ body {
 }
 
 .stacked-bar-chart-area {
-    padding: 0 0 var(--space-6) 0;
+    padding: 0px 0px 50px 0px;
     display: flex;
     flex-direction: column;
-    flex: 1 1 auto;
-    min-width: 0;
-    width: auto;
+    gap: 10px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex: 1;
     position: relative;
 }
 
 .stacked-bar-chart {
     background: #ffffff;
-    border-radius: var(--radius-s);
+    border-radius: 4px;
     border-style: solid;
     border-color: #d4d4d4;
     border-width: 2px;
-    width: 100%;
-    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+    flex: 1;
+    position: relative;
+    overflow: hidden;
 }
 
 .choropleth-area-bg {
     background: #ffffff;
-    border-radius: 0px var(--radius-m) var(--radius-m) var(--radius-m);
+    border-radius: 0px 5.56px 5.56px 5.56px;
     padding: 20px;
     display: flex;
     flex-direction: column;
-    align-items: stretch;
-    justify-content: center;
+    gap: 27.78px;
+    align-items: flex-end;
+    justify-content: flex-start;
     align-self: stretch;
+    flex: 1;
     position: relative;
     overflow: hidden;
-    height: 50%;
 }
 
 .choropleth {
-    border-radius: var(--radius-s);
+    border-radius: 2px;
     border-style: solid;
     border-color: #d4d4d4;
     border-width: 2px;
-    justify-content: center;
+    padding: 21px 0px 21px 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     align-items: center;
-    width: 100%;
-    height: 100%;
+    justify-content: center;
+    align-self: stretch;
+    flex: 1;
+    position: relative;
+    overflow: hidden;
 }
 
 .right-panel {
     display: flex;
     flex-direction: column;
-    align-items: stretch;
+    align-items: flex-end;
     justify-content: space-between;
     align-self: stretch;
     flex: 1;
@@ -450,31 +445,48 @@ body {
 }
 
 .butterfly-chart-area {
-    padding: 0px 0px var(--space-6) 0px;
+    padding: 0px 0px 50px 0px;
     display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex: 1;
     position: relative;
-    height: 50%;
 }
 
 .butterfly-chart {
     background: #ffffff;
-    border-radius: var(--radius-s);
-    border-style: solid;
-    border-color: #d4d4d4;
-    border-width: 2px;
-    width: 100%;
-    height: 100%;
-}
-
-.radar {
-    background: #ffffff;
-    border-radius: var(--radius-s);
+    border-radius: 4px;
     border-style: solid;
     border-color: #d4d4d4;
     border-width: 2px;
     display: flex;
     flex-direction: column;
+    gap: 8.56px;
+    align-items: center;
+    justify-content: center;
     align-self: stretch;
+    flex: 1;
+    position: relative;
     overflow: hidden;
-    height: 50%;
+}
+
+.radar {
+    background: #ffffff;
+    border-radius: 4px;
+    border-style: solid;
+    border-color: #d4d4d4;
+    border-width: 2px;
+    padding: 26.15px 20.21px 26.15px 20.21px;
+    display: flex;
+    flex-direction: column;
+    gap: 11.89px;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+    flex: 1;
+    position: relative;
+    overflow: hidden;
 }

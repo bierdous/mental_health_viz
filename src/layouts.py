@@ -1,68 +1,201 @@
 from dash import html, dcc
 
-def create_layout():
+# Metric options for dropdown (value -> label)
+METRIC_OPTIONS = [
+    {'value': 'treatment_rate', 'label': 'Treatment Rate'},
+    {'value': 'self_employment_rate', 'label': 'Self-Employment Rate'},
+    {'value': 'family_history_rate', 'label': 'Family History Rate'},
+    {'value': 'growing_stress_rate', 'label': 'Growing Stress Rate'},
+    {'value': 'changes_habits_rate', 'label': 'Changes in Habits Rate'},
+    {'value': 'mental_health_history_rate', 'label': 'Mental Health History Rate'},
+    {'value': 'high_mood_swings_rate', 'label': 'High Mood Swings Rate'},
+    {'value': 'work_interest_rate', 'label': 'Work Interest Rate'},
+    {'value': 'coping_struggles_rate', 'label': 'Coping Struggles Rate'},
+    {'value': 'social_weakness_rate', 'label': 'Social Weakness Rate'},
+    {'value': 'care_options_available_rate', 'label': 'Care Options Available Rate'},
+    {'value': 'mental_health_interview_rate', 'label': 'Mental Health Interview Rate'},
+]
+
+def create_layout(figures=None):
+    if figures is None:
+        figures = {}
+    
     return html.Div(
-        className="grid",
+        className="dashboard",
         children=[
-
-            # Header (title)
+            # Left Panel
             html.Div(
-                className="header",
-                children=html.H1("Mental Health")
-            ),
-
-            # Controls
-            html.Div(
-                className="controls",
+                className="left-panel",
                 children=[
-                    html.H3("Selected countries"),
-
+                    # Toggles & Bar Chart Section
                     html.Div(
-                        className="country-row",
+                        className="toggles-bar-chart",
                         children=[
-                            html.Span("None", id="country-a", className="country-label"),
-                            html.Button("Clear", id="clear-a", className="clear-btn"),
+                            # Toggles Area
+                            html.Div(
+                                className="toggles-area",
+                                children=[
+                                    # Title
+                                    html.Div(
+                                        className="title",
+                                        children=[
+                                            html.Div("Mental Health", className="mental-health")
+                                        ]
+                                    ),
+                                    # Toggles Container
+                                    html.Div(
+                                        className="toggles",
+                                        children=[
+                                            # Selected Countries
+                                            html.Div(
+                                                className="selected-ctrs",
+                                                children=[
+                                                    html.Div("Selected countries", className="selected-countries"),
+                                                    html.Div(
+                                                        className="ctrs-label-area",
+                                                        children=[
+                                                            # Static Example: Angola
+                                                            html.Div(
+                                                                className="ctry-1-and-trash-icon",
+                                                                children=[
+                                                                    html.Div(
+                                                                        className="ctry-1",
+                                                                        children=[
+                                                                            html.Div(className="rectangle-1"),
+                                                                            html.Div("Angola", className="angola")
+                                                                        ]
+                                                                    ),
+                                                                    html.Img(className="trash", src="assets/trash0.svg")
+                                                                ]
+                                                            ),
+                                                            # Static Example: Barbados
+                                                            html.Div(
+                                                                className="ctry-2-and-trash-icon",
+                                                                children=[
+                                                                    html.Div(
+                                                                        className="frame-31",
+                                                                        children=[
+                                                                            html.Div(className="rectangle-12"),
+                                                                            html.Div("Barbados", className="barbados")
+                                                                        ]
+                                                                    ),
+                                                                    html.Img(className="trash2", src="assets/trash1.svg")
+                                                                ]
+                                                            )
+                                                        ]
+                                                    )
+                                                ]
+                                            ),
+                                            # Metric Selector
+                                            html.Div(
+                                                className="metric-selector",
+                                                children=[
+                                                    html.Div("Mental health indicator", className="mental-health-indicator"),
+                                                    # Using Dash Dropdown instead of static HTML
+                                                    html.Div(
+                                                        className="dropdown-metric-area",
+                                                        children=[
+                                                            dcc.Dropdown(
+                                                                id="metric-dropdown",
+                                                                options=METRIC_OPTIONS,
+                                                                value='treatment_rate',
+                                                                clearable=False,
+                                                                className="dropdown-metric",
+                                                                maxHeight=300,
+                                                                placeholder="Select..."
+                                                            )
+                                                        ]
+                                                    )
+                                                ]
+                                            ),
+                                            # Map Detail Toggle
+                                            html.Div(
+                                                className="map-detail",
+                                                children=[
+                                                    html.Div("Map detail", className="map-detail2"),
+                                                    html.Div(
+                                                        className="detail-picker",
+                                                        children=[
+                                                            html.Div(
+                                                                className="trailing-accessories",
+                                                                children=[
+                                                                    html.Div("Continent", className="label"),
+                                                                    html.Div(
+                                                                        className="push-button",
+                                                                        children=[
+                                                                            html.Div(
+                                                                                className="bg",
+                                                                                children=[html.Div(className="black")]
+                                                                            ),
+                                                                            html.Div("Country", className="label2")
+                                                                        ]
+                                                                    )
+                                                                ]
+                                                            )
+                                                        ]
+                                                    )
+                                                ]
+                                            )
+                                        ]
+                                    )
+                                ]
+                            ),
+                            # Stacked Bar Chart Area
+                            html.Div(
+                                className="stacked-bar-chart-area",
+                                children=[
+                                    html.Div(
+                                        className="stacked-bar-chart",
+                                        children=dcc.Graph(
+                                            id="stacked-bar",
+                                            figure=figures.get('stacked_bar', {})
+                                        )
+                                    )
+                                ]
+                            )
                         ]
                     ),
-
+                    # Choropleth Area
                     html.Div(
-                        className="country-row",
+                        className="choropleth-area-bg",
                         children=[
-                            html.Span("None", id="country-b", className="country-label"),
-                            html.Button("Clear", id="clear-b", className="clear-btn")
+                            html.Div(
+                                className="choropleth",
+                                children=dcc.Graph(
+                                    id="choropleth", 
+                                    figure=figures.get('choropleth', {})
+                                )
+                            )
                         ]
-                    ),
+                    )
                 ]
             ),
-
-            # Top middle graph
+            # Right Panel
             html.Div(
-                className="graph-top",
-                children=dcc.Graph(id="graph-top")
-            ),
-
-            # Butterfly
-            html.Div(
-                className="butterfly",
-                children=dcc.Graph(id="butterfly")
-            ),
-
-            # Choropleth
-            html.Div(
-                className="map",
-                children=dcc.Graph(id="choropleth")
-            ),
-
-            # Text
-            html.Div(
-                className="text",
-                children=html.Div("To pass the course you need to complete the semestral project and pass the written exam. You have to obtain at least 26 points (out of 50 possible) on the final written exam. In addition, if you have any positive points from the project work, these can improve your final grade. On the other hand, if you have any negative points, these will be subtracted from your exam score. The grading scale based on your final score is the following:")
-            ),
-
-            # Radar
-            html.Div(
-                className="radar",
-                children=dcc.Graph(id="radar")
-            ),
+                className="right-panel",
+                children=[
+                    # Butterfly Chart Area
+                    html.Div(
+                        className="butterfly-chart-area",
+                        children=[
+                            html.Div(
+                                className="butterfly-chart",
+                                children=dcc.Graph(
+                                    id="butterfly",
+                                    figure=figures.get('butterfly', {})
+                                )
+                            )
+                        ]
+                    ),
+                    # Radar Chart Area
+                    html.Div(
+                        className="radar",
+                        children=dcc.Graph(
+                            id="radar",
+                            figure=figures.get('radar', {})
+                        )
+                    )
+                ]
+            )
         ]
     )
