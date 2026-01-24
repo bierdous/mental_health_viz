@@ -3,6 +3,9 @@ import plotly.express as px
 import pandas as pd
 
 from layouts import create_layout
+from figures.radar import create_radar
+from figures.choropleth import create_choropleth
+from figures.butterfly import create_butterfly
 
 ## Sample data
 #df = pd.DataFrame({
