@@ -510,19 +510,18 @@ def get_stacked_bar_data(df, country1, country2=None):
         """Helper function to aggregate stacked bar data for one country."""
         result = {}
         
-        for response in interview_responses_order:
-            response_df = country_df[country_df['mental_health_interview'] == response]
-            total_response = len(response_df)
-            
-            # Calculate percentages for each social weakness category (in order)
+        for weakness_cat in social_weakness_order:
+            weakness_df = country_df[country_df['Social_Weakness'] == weakness_cat]
+            total = len(weakness_df)
+
             percentages = {}
-            for weakness_cat in social_weakness_order:
-                count = (response_df['Social_Weakness'] == weakness_cat).sum()
-                pct = (count / total_response * 100) if total_response > 0 else 0.0
-                percentages[weakness_cat] = round(pct, 2)
-            
-            result[response] = percentages
-        
+            for response in interview_responses_order:
+                count = (weakness_df['mental_health_interview'] == response).sum()
+                pct = (count / total * 100) if total > 0 else 0.0
+                percentages[response] = round(pct, 2)
+
+            result[weakness_cat] = percentages
+
         return result
     
     # Get data for country1

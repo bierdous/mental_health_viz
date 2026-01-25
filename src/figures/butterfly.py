@@ -1,17 +1,17 @@
 import plotly.graph_objects as go
 
-def create_butterfly_chart(butterfly_data, country2=False):
+def create_butterfly_chart(df, country2=False):
 
     def create_1_country_butterfly_chart():
-        days = butterfly_data['days_indoors_order']
+        days = df['days_indoors_order']
 
         employed = [
-            butterfly_data['country1']['employed'][d]
+            df['country1']['employed'][d]
             for d in days
         ]
 
         self_employed = [
-            butterfly_data['country1']['self_employed'][d]
+            df['country1']['self_employed'][d]
             for d in days
         ]
 
@@ -39,7 +39,7 @@ def create_butterfly_chart(butterfly_data, country2=False):
         ))
     
         fig.update_layout(
-            title=f"Days indoors by employment status",
+            title="Days indoors by employment status",
             barmode='relative',
             margin={"r": 0, "t": 50, "l": 0, "b": 0},
             paper_bgcolor="rgba(0,0,0,0)",
@@ -65,14 +65,14 @@ def create_butterfly_chart(butterfly_data, country2=False):
         return fig
     
     def create_2_country_butterfly_chart():
-        days = butterfly_data['days_indoors_order']
+        days = df['days_indoors_order']
 
-        c1_emp = [-butterfly_data['country1']['employed'][d] for d in days]
-        c1_self = [butterfly_data['country1']['self_employed'][d] for d in days]
+        c1_emp = [-df['country1']['employed'][d] for d in days]
+        c1_self = [df['country1']['self_employed'][d] for d in days]
 
         # Country 2
-        c2_emp = [-butterfly_data['country2']['employed'][d] for d in days]
-        c2_self = [butterfly_data['country2']['self_employed'][d] for d in days]
+        c2_emp = [-df['country2']['employed'][d] for d in days]
+        c2_self = [df['country2']['self_employed'][d] for d in days]
 
 
 
@@ -82,7 +82,8 @@ def create_butterfly_chart(butterfly_data, country2=False):
         fig.add_trace(go.Bar(
             y=days,
             x=c1_emp,
-            name=butterfly_data['country1']['name'],
+            name=df['country1']['name'],
+            legendgroup=df['country1']['name'],
             orientation="h",
             marker_color="#1f77b4",
             customdata=[abs(v) for v in c1_emp],
@@ -93,8 +94,9 @@ def create_butterfly_chart(butterfly_data, country2=False):
         fig.add_trace(go.Bar(
             y=days,
             x=c2_emp,
-            name=butterfly_data['country2']['name'],
             orientation="h",
+            name=df['country2']['name'],
+            legendgroup=df['country2']['name'],
             marker_color="#d62728",
             customdata=[abs(v) for v in c2_emp],
             hovertemplate="%{y}<br>%{customdata}%<extra></extra>",
@@ -105,6 +107,7 @@ def create_butterfly_chart(butterfly_data, country2=False):
         fig.add_trace(go.Bar(
             y=days,
             x=c1_self,
+            legendgroup=df['country1']['name'],
             orientation="h",
             marker_color="#1f77b4",
             hovertemplate="%{y}<br>%{x}%<extra></extra>",
@@ -114,6 +117,7 @@ def create_butterfly_chart(butterfly_data, country2=False):
         fig.add_trace(go.Bar(
             y=days,
             x=c2_self,
+            legendgroup=df['country2']['name'],
             orientation="h",
             marker_color="#d62728",
             hovertemplate="%{y}<br>%{x}%<extra></extra>",
@@ -121,14 +125,18 @@ def create_butterfly_chart(butterfly_data, country2=False):
         ))
 
         fig.update_layout(
+            title="Days indoors by employment status",
             barmode="group",   # tady musí být "group", aby se sloupce zemí vedle sebe
             xaxis=dict(
                 title="Percentage of respondents",
-                tickvals=list(range(-100, 101, 10)),
-                ticktext=list(range(100, -1, -10)) + list(range(10, 101, 10))
+                tickvals=list(range(-50, 51, 5)),
+                ticktext=list(range(50, -1, -5)) + list(range(5, 51, 5)),
+                showgrid=True,
+                gridcolor="#dcdcdc",
+                gridwidth=1,
             ),
             yaxis=dict(
-                autorange="reversed"  # aby nejnižší kategorie byla dole
+                autorange="reversed"
             ),
             annotations=[
                 dict(x=-5, y=-1, text="Employed", showarrow=False, xanchor="right"),
