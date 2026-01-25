@@ -3,7 +3,7 @@ import plotly.express as px
 import pandas as pd
 
 from .layouts import create_layout, METRIC_OPTIONS
-from .preprocessing import clean_and_convert_types, get_choropleth_data
+from .preprocessing import clean_and_convert_types, get_choropleth_data, get_butterfly_data, print_categorical_columns
 from .figures.choropleth import create_choropleth
 from .figures.radar import create_radar_chart
 from .figures.stacked_bar import create_stacked_bar_chart
@@ -19,12 +19,13 @@ df_clean = clean_and_convert_types()
 
 # Generate initial choropleth data for treatment rate
 choropleth_df = get_choropleth_data(df_clean, 'treatment_rate')
+butterfly_df = get_butterfly_data(df_clean, "United States", "India")
 
 figures = {
     'choropleth': create_choropleth(choropleth_df, 'Treatment Rate'),
     'radar': create_radar_chart(),
     'stacked_bar': create_stacked_bar_chart(),
-    'butterfly': create_butterfly_chart()
+    'butterfly': create_butterfly_chart(butterfly_df, True)
 }
 
 app.layout = create_layout(figures)

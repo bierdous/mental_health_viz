@@ -360,7 +360,7 @@ def get_radar_data(df, country1, country2=None):
 # SECTION 6: BUTTERFLY CHART DATA AGGREGATION
 # ============================================================================
 
-def get_butterfly_data(df, country1, country2=None):
+def get_butterfly_data(df, country1=None, country2=None):
     """
     Prepare data for butterfly chart (employment status vs days indoors).
     
@@ -424,16 +424,23 @@ def get_butterfly_data(df, country1, country2=None):
             
             result[emp_type] = percentages
         
+
         return result
     
     # Get data for country1
-    country1_df = df[df['Country'] == country1]
+    if country1:
+        country1_df = df[df['Country'] == country1]
+        country1_name = country1
+    else:
+        country1_df = df
+        country1_name = "Global"
+
     country1_agg = aggregate_butterfly_for_country(country1_df)
     
     butterfly_data = {
         'days_indoors_order': days_indoors_order,
         'country1': {
-            'name': country1,
+            'name': country1_name,
             'employed': country1_agg['employed'],
             'self_employed': country1_agg['self_employed']
         },
