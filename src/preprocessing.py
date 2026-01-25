@@ -266,7 +266,10 @@ def get_country_metric_value(df, country, metric):
     column, target_value = metric_mappings[metric]
     
     # Filter to country data
-    country_df = df[df['Country'] == country]
+    if country:
+        country_df = df[df['Country'] == country]
+    else:
+        country_df = df
     
     if country_df.empty:
         return {'metric_value': 0.0, 'respondents': 0}
@@ -286,7 +289,7 @@ def get_country_metric_value(df, country, metric):
 # SECTION 5: RADAR CHART DATA AGGREGATION
 # ============================================================================
 
-def get_radar_data(df, country1, country2=None):
+def get_radar_data(df, country1=None, country2=None):
     """
     Prepare data for radar chart visualization (4 mental health metrics).
     
@@ -465,7 +468,7 @@ def get_butterfly_data(df, country1=None, country2=None):
 # SECTION 7: STACKED BAR CHART DATA AGGREGATION
 # ============================================================================
 
-def get_stacked_bar_data(df, country1, country2=None):
+def get_stacked_bar_data(df, country1=None, country2=None):
     """
     Prepare data for horizontal stacked bar chart (mental health interview vs social weakness).
     
@@ -525,7 +528,12 @@ def get_stacked_bar_data(df, country1, country2=None):
         return result
     
     # Get data for country1
-    country1_df = df[df['Country'] == country1]
+    if country1:
+        country1_df = df[df['Country'] == country1]
+
+    else:
+        country1_df = df
+
     country1_agg = aggregate_stacked_bar_for_country(country1_df)
     
     stacked_data = {

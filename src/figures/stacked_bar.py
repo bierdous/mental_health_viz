@@ -27,6 +27,7 @@ def create_stacked_bar_chart(stacked_data):
         rows=len(countries),
         cols=1,
         shared_xaxes=True,
+        vertical_spacing=0.15,
         subplot_titles=[c["name"] for c in countries]
     )
 
@@ -35,6 +36,8 @@ def create_stacked_bar_chart(stacked_data):
             # Pro každý Social_Weakness získáme procenta dané odpovědi
             values = [country[weakness][interview] for weakness in social_weakness_order]
 
+            text_values = [interview if v > 0 else "" for v in values]
+
             fig.add_trace(
                 go.Bar(
                     y=social_weakness_order,     # Y = Social_Weakness
@@ -42,7 +45,10 @@ def create_stacked_bar_chart(stacked_data):
                     orientation="h",
                     name=interview,              # stack = mental_health_interview
                     marker_color=colors[interview],
-                    showlegend=(row == 1),       # legenda jen u prvního grafu
+                    text=text_values,               # zobrazit text uvnitř segmentu
+                    textposition='inside',          # pozice uvnitř
+                    insidetextanchor='middle',      # zarovnání textu uprostřed segmentu
+                    showlegend=False,               # legendu už nepotřebujeme
                     hovertemplate=(
                         "Social weakness: %{y}<br>"
                         "Interview: " + interview + "<br>"
@@ -56,8 +62,6 @@ def create_stacked_bar_chart(stacked_data):
     fig.update_layout(
         barmode="stack",
         title="Mental Health Interview vs Social Weakness",
-        xaxis_title="Percentage (%)",
-        yaxis_title="Social Weakness",
         height=300 * len(countries),
         margin=dict(l=90, r=40, t=80, b=40),
         paper_bgcolor="rgba(0,0,0,0)",
@@ -65,6 +69,22 @@ def create_stacked_bar_chart(stacked_data):
         legend_title="Mental Health Interview"
     )
 
-    fig.update_xaxes(range=[0, 100])  # škála X od 0 do 100%
+    fig.update_xaxes(
+        title_text="Percentage (%)",
+        row=len(countries),
+        col=1,
+        range=[0, 100]
+    )
+
+    fig.add_annotation(
+        x=-0.2,                       # posun doleva od grafu (mimo plot)
+        y=0.5,                          # uprostřed figure
+        xref='paper',
+        yref='paper',
+        text='Social Weakness',
+        showarrow=False,
+        textangle=-90,                  # otočit text vertikálně
+        font=dict(size=14)
+    )
 
     return fig
