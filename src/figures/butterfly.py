@@ -1,6 +1,6 @@
 import plotly.graph_objects as go
 
-def create_butterfly_chart(df, country2=False):
+def create_butterfly_chart(df, country2=None):
 
     def create_1_country_butterfly_chart():
         days = df['days_indoors_order']

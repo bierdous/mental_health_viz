@@ -21,8 +21,10 @@ def create_layout(figures=None):
         figures = {}
     
     return html.Div(
+        id="dashboard",
         className="dashboard",
         children=[
+            html.Div(id="output", style={"marginTop": "20px", "fontSize": "18px"}),
             # Left Panel
             html.Div(
                 className="left-panel",
@@ -50,36 +52,32 @@ def create_layout(figures=None):
                                             html.Div(
                                                 className="selected-ctrs",
                                                 children=[
-                                                    html.Div("Selected countries", className="selected-countries"),
+                                                    html.Div("Selected countries", className="toggles-label"),
                                                     html.Div(
                                                         className="ctrs-label-area",
                                                         children=[
-                                                            # Static Example: Angola
                                                             html.Div(
-                                                                className="ctry-1-and-trash-icon",
+                                                                className="ctry-and-trash-icon",
                                                                 children=[
                                                                     html.Div(
-                                                                        className="ctry-1",
+                                                                        className="ctry ctry-1-bg",
                                                                         children=[
-                                                                            html.Div(className="rectangle-1"),
-                                                                            html.Div("Angola", className="angola")
+                                                                            html.Div("Angola", className="ctry-name", id="ctry-1-tag")
                                                                         ]
                                                                     ),
-                                                                    html.Img(className="trash", src="assets/trash0.svg")
+                                                                    html.Img(className="trash", src="assets/trash.svg")
                                                                 ]
                                                             ),
-                                                            # Static Example: Barbados
                                                             html.Div(
-                                                                className="ctry-2-and-trash-icon",
+                                                                className="ctry-and-trash-icon",
                                                                 children=[
                                                                     html.Div(
-                                                                        className="frame-31",
+                                                                        className="ctry ctry-2-bg",
                                                                         children=[
-                                                                            html.Div(className="rectangle-12"),
-                                                                            html.Div("Barbados", className="barbados")
+                                                                            html.Div("Barbados", className="ctry-name", id="ctry-2-tag")
                                                                         ]
                                                                     ),
-                                                                    html.Img(className="trash2", src="assets/trash1.svg")
+                                                                    html.Img(className="trash", src="assets/trash.svg")
                                                                 ]
                                                             )
                                                         ]
@@ -90,7 +88,7 @@ def create_layout(figures=None):
                                             html.Div(
                                                 className="metric-selector",
                                                 children=[
-                                                    html.Div("Mental health indicator", className="mental-health-indicator"),
+                                                    html.Div("Mental health indicator", className="toggles-label"),
                                                     # Using Dash Dropdown instead of static HTML
                                                     html.Div(
                                                         className="dropdown-metric-area",
@@ -112,7 +110,7 @@ def create_layout(figures=None):
                                             html.Div(
                                                 className="map-detail",
                                                 children=[
-                                                    html.Div("Map detail", className="map-detail2"),
+                                                    html.Div("Map detail", className="toggles-label"),
                                                     html.Div(
                                                         className="detail-picker",
                                                         children=[
@@ -159,13 +157,31 @@ def create_layout(figures=None):
                     html.Div(
                         className="choropleth-area-bg",
                         children=[
+                            # Stores the country immediately clicked (temporary)
+                            dcc.Store(id='temp-click-store'),
+                            # The final selections used by other charts
+                            dcc.Store(id='selected-ctry1-store'),
+                            dcc.Store(id='selected-ctry2-store'),
                             html.Div(
                                 className="choropleth",
-                                children=dcc.Graph(
+                                children=[dcc.Graph(
                                     id="choropleth", 
                                     figure=figures.get('choropleth', {})
-                                )
-                            )
+                            ),
+                            html.Div(
+                                id="popup",
+                                style={"display": "none"},
+                                children=[
+                                    html.Div(id="popup-text", style={"marginBottom": "10px"}),
+
+                                    html.Button("Set as Selected 1", id="btn-sel1", n_clicks=0,
+                                                style={"marginRight": "10px"}),
+
+                                    html.Button("Set as Selected 2", id="btn-sel2", n_clicks=0),
+                                ]
+                            ),
+                            ]
+                        )
                         ]
                     )
                 ]
@@ -197,5 +213,5 @@ def create_layout(figures=None):
                     )
                 ]
             )
-        ]
+        ]    
     )

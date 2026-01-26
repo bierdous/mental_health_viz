@@ -46,7 +46,7 @@ def create_choropleth(df, metric_label):
         color_continuous_scale="YlGnBu",
         labels={
             "metric_value": "Share of Respondents (%)",
-            "respondents": "Respondents"
+            "respondents": "Number of Respondents"
         },
         title=CHOROPLETH_TITLES[metric_label]
     )

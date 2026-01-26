@@ -1,4 +1,5 @@
-from dash import Dash, html, dcc, callback, Output, Input
+import dash
+from dash import Dash, html, dcc, callback, Output, Input, State, ctx
 import plotly.express as px
 import pandas as pd
 
@@ -55,6 +56,93 @@ def update_choropleth(selected_metric):
     
     # Create and return the updated figure
     return create_choropleth(choropleth_data, selected_metric)
+
+# Callback to display popup on country click
+@callback(
+    Output("popup", "style"),
+    Output("temp-click-store", "data"),
+    Input("choropleth", "clickData")
+)
+
+def display_popup(clickData):
+    if clickData is None:
+        return {
+                "display": "none",
+                }, None
+    
+    country_name = clickData['points'][0]['hovertext']
+    return {
+            "display": "block",
+            "position": "absolute",
+            "top": clickData['points'][0]['bbox']['y0'],
+            "left": clickData['points'][0]['bbox']['x0'],
+            "background": "white",
+            "padding": "20px",
+            "border": "2px solid black",
+            "zIndex": 1000,
+            }, country_name
+
+# Save selected country to the appropriate slot
+@app.callback(
+    Output("selected-ctry1-store", "data"),
+    Output("selected-ctry2-store", "data"),
+    Output("popup", "style", allow_duplicate=True),
+    Input("btn-sel1", "n_clicks"),
+    Input("btn-sel2", "n_clicks"),
+    State("temp-click-store", "data"),
+    prevent_initial_call=True,
+)
+def save_selection(btn1, btn2, temp_country):
+    triggered_id = ctx.triggered_id
+    
+    # Initialize outputs (keep existing data if not updating that slot)
+    out_slot1 = dash.no_update
+    out_slot2 = dash.no_update
+    
+    if triggered_id == "btn-sel1":
+        out_slot1 = temp_country
+    elif triggered_id == "btn-sel2":
+        out_slot2 = temp_country
+
+    return out_slot1, out_slot2, { "display": "none",}
+
+# Update secondary graphs based on selected countries
+@app.callback(
+    Output("stacked-bar", "figure"),
+    Output("butterfly", "figure"),
+    Input("selected-ctry1-store", "data"),
+    Input("selected-ctry2-store", "data"),
+    prevent_initial_call=True
+)
+def update_secondary_graphs(country_name1, country_name2):
+    # Update stacked bar chart
+    stacked_data = get_stacked_bar_data(df_clean, country_name1, country_name2)
+    stacked_fig = create_stacked_bar_chart(stacked_data)
+    
+    # Update butterfly chart
+    butterfly_data = get_butterfly_data(df_clean, country_name1, country_name2)
+    butterfly_fig = create_butterfly_chart(butterfly_data, True)
+    
+    return stacked_fig, butterfly_fig
+
+# Update country labels based on selections
+@app.callback(
+    Output("ctry-1-tag", "children"),
+    Input("selected-ctry1-store", "data")
+)
+def update_label_1(country_name):
+    if not country_name:
+        return "Empty"
+    return country_name
+
+@app.callback(
+    Output("ctry-2-tag", "children"),
+    Input("selected-ctry2-store", "data")
+)
+def update_label_2(country_name):
+    if not country_name:
+        return "Empty"
+    return country_name
 
 # Expose Flask server for Render
 server = app.server
