@@ -60,7 +60,7 @@ def create_choropleth(df, metric_label):
             showcoastlines=False,
             projection_type='equirectangular',
             bgcolor="rgba(0,0,0,0)"
-        ),
+        ),  
         font_family="Roboto",
         font_color="black"
     )

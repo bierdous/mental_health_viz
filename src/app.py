@@ -9,11 +9,15 @@ from .figures.radar import create_radar_chart
 from .figures.stacked_bar import create_stacked_bar_chart
 from .figures.butterfly import create_butterfly_chart
 
+
+GOOGLE_FONTS = "https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+
 app = Dash(
     __name__,
+    external_stylesheets=[GOOGLE_FONTS],
     assets_folder="../assets"
 )
-
+    
 # Load and clean data
 df_clean = clean_and_convert_types()
 

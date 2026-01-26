@@ -56,7 +56,8 @@ def create_radar_chart(radar_data):
         title="Mental Health Radar Chart",
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
-        margin=dict(l=80, r=20, t=60, b=30)
+        margin=dict(l=80, r=20, t=60, b=30),
+        font_family="Roboto", font_color="black"
     )
     
     return fig

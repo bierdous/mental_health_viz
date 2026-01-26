@@ -66,7 +66,8 @@ def create_stacked_bar_chart(stacked_data):
         margin=dict(l=90, r=40, t=80, b=40),
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
-        legend_title="Mental Health Interview"
+        legend_title="Mental Health Interview",
+        font_family="Roboto", font_color="black"
     )
 
     fig.update_xaxes(

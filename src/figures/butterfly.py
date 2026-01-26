@@ -60,7 +60,8 @@ def create_butterfly_chart(df, country2=False):
                 y=1.02,
                 xanchor="right",
                 x=1
-            )
+            ),
+            font_family="Roboto", font_color="black"
         )
         return fig
     
@@ -151,7 +152,9 @@ def create_butterfly_chart(df, country2=False):
                 xanchor="right",
                 x=1
             ),
-            margin=dict(l=0, r=0, t=40, b=0)
+            margin=dict(l=0, r=0, t=40, b=0),
+            font_family="Roboto", font_color="black"
+
         )
         return fig
 
