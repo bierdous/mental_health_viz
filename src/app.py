@@ -25,7 +25,7 @@ radar_df = get_radar_data(df_clean)
 
 
 figures = {
-    'choropleth': create_choropleth(choropleth_df, 'Treatment Rate'),
+    'choropleth': create_choropleth(choropleth_df, 'treatment_rate'),
     'radar': create_radar_chart(radar_df),
     'stacked_bar': create_stacked_bar_chart(stacked_df),
     'butterfly': create_butterfly_chart(butterfly_df, True)
@@ -50,7 +50,7 @@ def update_choropleth(selected_metric):
     choropleth_data = get_choropleth_data(df_clean, selected_metric)
     
     # Create and return the updated figure
-    return create_choropleth(choropleth_data, metric_label)
+    return create_choropleth(choropleth_data, selected_metric)
 
 # Expose Flask server for Render
 server = app.server

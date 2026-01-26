@@ -2,18 +2,18 @@ from dash import html, dcc
 
 # Metric options for dropdown (value -> label)
 METRIC_OPTIONS = [
-    {'value': 'treatment_rate', 'label': 'Treatment Rate'},
-    {'value': 'self_employment_rate', 'label': 'Self-Employment Rate'},
-    {'value': 'family_history_rate', 'label': 'Family History Rate'},
-    {'value': 'growing_stress_rate', 'label': 'Growing Stress Rate'},
-    {'value': 'changes_habits_rate', 'label': 'Changes in Habits Rate'},
-    {'value': 'mental_health_history_rate', 'label': 'Mental Health History Rate'},
-    {'value': 'high_mood_swings_rate', 'label': 'High Mood Swings Rate'},
-    {'value': 'work_interest_rate', 'label': 'Work Interest Rate'},
-    {'value': 'coping_struggles_rate', 'label': 'Coping Struggles Rate'},
-    {'value': 'social_weakness_rate', 'label': 'Social Weakness Rate'},
-    {'value': 'care_options_available_rate', 'label': 'Care Options Available Rate'},
-    {'value': 'mental_health_interview_rate', 'label': 'Mental Health Interview Rate'},
+    {'value': 'treatment_rate', 'label': 'Seeking Treatment'},
+    {'value': 'self_employment_rate', 'label': 'Self-Employment'},
+    {'value': 'family_history_rate', 'label': 'Family History of Mental Illness'},
+    {'value': 'growing_stress_rate', 'label': 'Growing Stress'},
+    {'value': 'changes_habits_rate', 'label': 'Changes in Habits'},
+    {'value': 'mental_health_history_rate', 'label': 'Mental Health History'},
+    {'value': 'high_mood_swings_rate', 'label': 'Mood Swings'},
+    {'value': 'work_interest_rate', 'label': 'Work Interest'},
+    {'value': 'coping_struggles_rate', 'label': 'Coping Struggles'},
+    {'value': 'social_weakness_rate', 'label': 'Social Weakness'},
+    {'value': 'care_options_available_rate', 'label': 'Awareness of Employer Offered Care Options'},
+    {'value': 'mental_health_interview_rate', 'label': 'Opening up About Mental Health at an Interview'},
 ]
 
 def create_layout(figures=None):

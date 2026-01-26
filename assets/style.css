@@ -416,7 +416,6 @@ body {
 .choropleth-area-bg {
     background: #ffffff;
     border-radius: 0px var(--radius-m) var(--radius-m) var(--radius-m);
-    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -428,10 +427,6 @@ body {
 }
 
 .choropleth {
-    border-radius: var(--radius-s);
-    border-style: solid;
-    border-color: #d4d4d4;
-    border-width: 2px;
     justify-content: center;
     align-items: center;
     width: 100%;

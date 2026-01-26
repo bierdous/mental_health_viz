@@ -1,6 +1,25 @@
 import plotly.express as px
 
 
+"""
+Custom titles for choropleth maps based on the selected metric.
+"""
+
+CHOROPLETH_TITLES = {
+    'treatment_rate': "Seeking Treatment for Mental Health Issues",
+    'self_employment_rate': "Self-Employment",
+    'family_history_rate': "Family History of Mental Health Issues",
+    'growing_stress_rate': "Perceived Growing Stress Levels",
+    'changes_habits_rate': "Perceived Changes in Habits",
+    'mental_health_history_rate': "Personal History of Mental Health Issues",
+    'high_mood_swings_rate': "Perceived High Mood Swings",
+    'work_interest_rate': "Reported Work Interest",
+    'coping_struggles_rate': "Reported Struggle to Cope",
+    'social_weakness_rate': "Reported Social Weakness",
+    'care_options_available_rate': "Awareness of Care Options Provided by Employer",
+    'mental_health_interview_rate': "Willigness to Bring Up Mental Health in an Interview"
+}
+
 def create_choropleth(df, metric_label):
     """
     Create a choropleth map visualization.
@@ -24,12 +43,12 @@ def create_choropleth(df, metric_label):
             "metric_value": ":.2f",
             "respondents": True
         },
-        color_continuous_scale="Viridis",
+        color_continuous_scale="YlGnBu",
         labels={
-            "metric_value": "Percentage (%)",
+            "metric_value": "Share of Respondents (%)",
             "respondents": "Respondents"
         },
-        title=f"Global Distribution: {metric_label}"
+        title=CHOROPLETH_TITLES[metric_label]
     )
     
     fig.update_layout(
@@ -41,7 +60,9 @@ def create_choropleth(df, metric_label):
             showcoastlines=False,
             projection_type='equirectangular',
             bgcolor="rgba(0,0,0,0)"
-        )
+        ),
+        font_family="Roboto",
+        font_color="black"
     )
     
     return fig
