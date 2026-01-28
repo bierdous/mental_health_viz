@@ -12,6 +12,7 @@ def create_stacked_bar_chart(stacked_data):
     countries = [stacked_data["country1"]]
     if stacked_data["country2"]:
         countries.append(stacked_data["country2"])
+    
 
     social_weakness_order = stacked_data["social_weakness_order"]
     interview_responses_order = stacked_data["interview_responses"]
@@ -71,7 +72,7 @@ def create_stacked_bar_chart(stacked_data):
     )
 
     fig.update_xaxes(
-        title_text="Percentage (%)",
+        title_text="Share of Respondents (%)",
         row=len(countries),
         col=1,
         range=[0, 100]
