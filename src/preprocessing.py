@@ -436,7 +436,7 @@ def get_butterfly_data(df, country1=None, country2=None):
         country1_name = country1
     else:
         country1_df = df
-        country1_name = "Global"
+        country1_name = "World"
 
     country1_agg = aggregate_butterfly_for_country(country1_df)
     
@@ -530,9 +530,11 @@ def get_stacked_bar_data(df, country1=None, country2=None):
     # Get data for country1
     if country1:
         country1_df = df[df['Country'] == country1]
+        country1_name = country1
 
     else:
         country1_df = df
+        country1_name = "World"
 
     country1_agg = aggregate_stacked_bar_for_country(country1_df)
     
@@ -540,7 +542,7 @@ def get_stacked_bar_data(df, country1=None, country2=None):
         'interview_responses': interview_responses_order,
         'social_weakness_order': social_weakness_order,
         'country1': {
-            'name': country1,
+            'name': country1_name,
             **country1_agg
         },
         'country2': None
