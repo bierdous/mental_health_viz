@@ -24,8 +24,8 @@ df_clean = clean_and_convert_types()
 
 # Generate initial choropleth data for treatment rate
 choropleth_df = get_choropleth_data(df_clean, 'treatment_rate')
-butterfly_df = get_butterfly_data(df_clean, "United States", "India")
-stacked_df = get_stacked_bar_data(df_clean, "Canada", "Germany")
+butterfly_df = get_butterfly_data(df_clean)
+stacked_df = get_stacked_bar_data(df_clean)
 radar_df = get_radar_data(df_clean)
 
 
@@ -33,7 +33,7 @@ figures = {
     'choropleth': create_choropleth(choropleth_df, 'treatment_rate'),
     'radar': create_radar_chart(radar_df),
     'stacked_bar': create_stacked_bar_chart(stacked_df),
-    'butterfly': create_butterfly_chart(butterfly_df, True)
+    'butterfly': create_butterfly_chart(butterfly_df, None)
 }
 
 app.layout = create_layout(figures)
@@ -84,8 +84,8 @@ def display_popup(clickData):
 
 # Save selected country to the appropriate slot
 @app.callback(
-    Output("selected-ctry1-store", "data"),
-    Output("selected-ctry2-store", "data"),
+    Output("selected-ctry1-store", "data", allow_duplicate=True),
+    Output("selected-ctry2-store", "data", allow_duplicate=True),
     Output("popup", "style", allow_duplicate=True),
     Input("btn-sel1", "n_clicks"),
     Input("btn-sel2", "n_clicks"),
@@ -110,6 +110,7 @@ def save_selection(btn1, btn2, temp_country):
 @app.callback(
     Output("stacked-bar", "figure"),
     Output("butterfly", "figure"),
+    Output("radar", "figure"),
     Input("selected-ctry1-store", "data"),
     Input("selected-ctry2-store", "data"),
     prevent_initial_call=True
@@ -121,28 +122,58 @@ def update_secondary_graphs(country_name1, country_name2):
     
     # Update butterfly chart
     butterfly_data = get_butterfly_data(df_clean, country_name1, country_name2)
-    butterfly_fig = create_butterfly_chart(butterfly_data, True)
+    butterfly_fig = create_butterfly_chart(butterfly_data, country_name2)
     
-    return stacked_fig, butterfly_fig
+    # Update radar chart
+    radar_data = get_radar_data(df_clean, country_name1, country_name2)
+    radar_fig = create_radar_chart(radar_data)
+
+    return stacked_fig, butterfly_fig, radar_fig
 
 # Update country labels based on selections
 @app.callback(
     Output("ctry-1-tag", "children"),
-    Input("selected-ctry1-store", "data")
+    Output("ctry-1-container", "style", allow_duplicate=True),
+    Output("ctry-1-trash", "style", allow_duplicate=True),
+    Input("selected-ctry1-store", "data"),
+    prevent_initial_call=True
 )
 def update_label_1(country_name):
     if not country_name:
-        return "Empty"
-    return country_name
+        return "Empty", {"opacity": 0.2}, {"cursor": "default"}
+    return country_name, {"opacity": 1}, {"cursor": "pointer"}
 
 @app.callback(
     Output("ctry-2-tag", "children"),
-    Input("selected-ctry2-store", "data")
+    Output("ctry-2-container", "style", allow_duplicate=True),
+    Output("ctry-2-trash", "style", allow_duplicate=True),
+    Input("selected-ctry2-store", "data"),
+    prevent_initial_call=True
 )
 def update_label_2(country_name):
     if not country_name:
-        return "Empty"
-    return country_name
+        return "Empty", {"opacity": 0.2}, {"cursor": "default"}
+    return country_name, {"opacity": 1}, {"cursor": "pointer"}
+
+# Remove selected country 1
+@app.callback(
+    Output("selected-ctry1-store", "data"),
+    Output("ctry-1-container", "style"),
+    Output("ctry-1-trash", "style"),
+    Input("ctry-1-trash", "n_clicks")
+)
+def remove_country_1(clicks):
+    return None, {"opacity": 0.2}, {"cursor": "default"}
+
+# Remove selected country 2
+@app.callback(
+    Output("selected-ctry2-store", "data"),
+    Output("ctry-2-container", "style"),
+    Output("ctry-2-trash", "style"),
+    Input("ctry-2-trash", "n_clicks")
+)
+def remove_country_2(clicks):
+    return None, {"opacity": 0.2}, {"cursor": "default"}
 
 # Expose Flask server for Render
 server = app.server

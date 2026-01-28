@@ -35,7 +35,8 @@ def create_radar_chart(radar_data):
         polar=dict(
             radialaxis=dict(
                 visible=True,
-                range=[0, 100],
+                autorange=True, 
+                rangemode='tozero',
                 tickvals=[0, 20, 40, 60, 80, 100],
                 ticktext=['0%', '20%', '40%', '60%', '80%', '100%'],
                 angle=45,

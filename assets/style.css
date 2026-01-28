@@ -198,10 +198,21 @@ body {
 }
 
 .trash {
-    flex-shrink: 0;
-    width: var(--fs-md);
+    width: var(--fs-lg);
+    height: auto;
+    display: flex;
     position: relative;
     overflow: visible;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-1);
+}
+
+.trash_svg {
+    width: var(--fs-md);
+    display: flex;  
+    position: relative;
 }
 
 .metric-selector {

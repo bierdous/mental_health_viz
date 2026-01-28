@@ -335,6 +335,9 @@ def get_radar_data(df, country1=None, country2=None):
         result = get_country_metric_value(df, country1, metric)
         country1_values.append(result['metric_value'])
     
+    if country1 is None:
+        country1 = "Global"
+        
     radar_data = {
         'metrics': metric_labels,
         'country1': {
@@ -533,6 +536,7 @@ def get_stacked_bar_data(df, country1=None, country2=None):
         country1_name = country1
 
     else:
+        country1 = "Global"
         country1_df = df
         country1_name = "World"
 
