@@ -1,3 +1,4 @@
+
 /* --- Responsive foundation & design tokens ------------------------------ */
 :root {
     /* fluid spacing and radii */
@@ -182,9 +183,9 @@ body {
     position: relative;
 }
 
-.ctry-1-bg { background: #66d575;}
+.ctry-1-bg { background: #FA5C5C;}
 
-.ctry-2-bg { background: #8266d5;}
+.ctry-2-bg { background: #A594F9;}
 
 .ctry-name {
     color: #ffffff;

@@ -1,4 +1,5 @@
 import plotly.graph_objects as go
+from ..theme import COUNTRY_COLORS, CHART_TITLE_STYLE
 
 def create_radar_chart(radar_data):
     """
@@ -25,9 +26,9 @@ def create_radar_chart(radar_data):
         fig.add_trace(go.Scatterpolar(
             r = values + [values[0]],
             theta=metrics + [metrics[0]],
-            fill='toself',
+            fill=None,
             name=country['name'],
-            marker_color='#1f77b4',
+            marker_color=COUNTRY_COLORS['country1'] if country['name'] == countries[0]['name'] else COUNTRY_COLORS['country2'],
             hovertemplate='%{theta}: %{r}%<extra></extra>'
         ))
 
@@ -45,10 +46,13 @@ def create_radar_chart(radar_data):
             )
         ),
         showlegend=True,
-        title="Mental Health Radar Chart",
+        title=dict(
+            text="Comparison of Key Mental Health Indicators",
+            **CHART_TITLE_STYLE
+        ),
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
-        margin=dict(l=80, r=20, t=60, b=30),
+        margin=dict(l=80, r=30, t=65, b=30),
         font_family="Roboto", font_color="black"
     )
 

@@ -1,10 +1,10 @@
 # TODO
 
 ## Peťa
-- Radar rozdílné barvy pro země
-- Vybrat a sjednotit barvy pro vybrané země
-- U butterfly grafu udělat větší padding od ráměčku
-- Vycentrovat nadpisy grafů
+- Radar rozdílné barvy pro země - hotovo
+- Vybrat a sjednotit barvy pro vybrané země - 
+- U butterfly grafu udělat větší padding od ráměčku - hotovo
+- Vycentrovat nadpisy grafů - hotovo
 
 ## Marek
 - Udělat hezký popup + smazat defaultní

@@ -1,4 +1,5 @@
 import plotly.graph_objects as go
+from ..theme import COUNTRY_COLORS,CHART_TITLE_STYLE
 
 def create_butterfly_chart(butterfly_data):
 
@@ -29,15 +30,18 @@ def create_butterfly_chart(butterfly_data):
                 customdata=data,
                 legendgroup=country['name'],
                 name=country['name'],
-                marker_color="#1f77b4" if country['name'] == countries[0]['name'] else "#d62728",
+                marker_color=COUNTRY_COLORS['country1'] if country['name'] == countries[0]['name'] else COUNTRY_COLORS['country2'],
                 hovertemplate='%{y}: %{customdata}',
                 showlegend=True if status == 'employed' else False
             ))
 
     fig.update_layout(
-        title="Days indoors by employment status",
+        title=dict(
+            text="Time Spent Indoors by Employment Status",
+            **CHART_TITLE_STYLE
+            ),
         barmode='group' if len(countries) > 1 else 'relative',
-        margin={"r": 0, "t": 50, "l": 0, "b": 0},
+        margin=dict(r=30, t=65, l=30, b=30),
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
         xaxis=dict(

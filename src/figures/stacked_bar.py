@@ -1,5 +1,6 @@
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+from ..theme import STACKED_CHART_COLOR, CHART_TITLE_STYLE
 
 def create_stacked_bar_chart(stacked_data):
     """
@@ -17,12 +18,6 @@ def create_stacked_bar_chart(stacked_data):
     social_weakness_order = stacked_data["social_weakness_order"]
     interview_responses_order = stacked_data["interview_responses"]
 
-    # Barvy pro mental_health_interview
-    colors = {
-        "No": "#1f77b4",
-        "Maybe": "#ff7f0e",
-        "Yes": "#2ca02c"
-    }
 
     fig = make_subplots(
         rows=len(countries),
@@ -45,7 +40,7 @@ def create_stacked_bar_chart(stacked_data):
                     x=values,                    # X = %
                     orientation="h",
                     name=interview,              # stack = mental_health_interview
-                    marker_color=colors[interview],
+                    marker_color=STACKED_CHART_COLOR['country1'][interview] if country['name'] == countries[0]['name'] else STACKED_CHART_COLOR['country2'][interview],
                     text=text_values,               # zobrazit text uvnitř segmentu
                     textposition='inside',          # pozice uvnitř
                     insidetextanchor='middle',      # zarovnání textu uprostřed segmentu
@@ -62,9 +57,12 @@ def create_stacked_bar_chart(stacked_data):
 
     fig.update_layout(
         barmode="stack",
-        title="Mental Health Interview vs Social Weakness",
+        title=dict(
+            text="Mental Health Disclosure in Relation to Social Weakness",
+            **CHART_TITLE_STYLE
+            ),
         height=300 * len(countries),
-        margin=dict(l=90, r=40, t=80, b=40),
+        margin=dict(l=90, r=30, t=65, b=30),
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
         legend_title="Mental Health Interview",
@@ -79,7 +77,7 @@ def create_stacked_bar_chart(stacked_data):
     )
 
     fig.add_annotation(
-        x=-0.2,                       # posun doleva od grafu (mimo plot)
+        x=-0.18,                       # posun doleva od grafu (mimo plot)
         y=0.5,                          # uprostřed figure
         xref='paper',
         yref='paper',

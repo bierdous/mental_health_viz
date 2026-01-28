@@ -538,7 +538,7 @@ def get_stacked_bar_data(df, country1=None, country2=None):
     else:
         country1 = "Global"
         country1_df = df
-        country1_name = "World"
+        country1_name = "Global"
 
     country1_agg = aggregate_stacked_bar_for_country(country1_df)
     
