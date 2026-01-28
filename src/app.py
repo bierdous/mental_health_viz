@@ -24,8 +24,8 @@ df_clean = clean_and_convert_types()
 
 # Generate initial choropleth data for treatment rate
 choropleth_df = get_choropleth_data(df_clean, 'treatment_rate')
-butterfly_df = get_butterfly_data(df_clean, "United States", "India")
-stacked_df = get_stacked_bar_data(df_clean, "Canada", "Germany")
+butterfly_df = get_butterfly_data(df_clean)
+stacked_df = get_stacked_bar_data(df_clean)
 radar_df = get_radar_data(df_clean)
 
 
@@ -33,7 +33,7 @@ figures = {
     'choropleth': create_choropleth(choropleth_df, 'treatment_rate'),
     'radar': create_radar_chart(radar_df),
     'stacked_bar': create_stacked_bar_chart(stacked_df),
-    'butterfly': create_butterfly_chart(butterfly_df, True)
+    'butterfly': create_butterfly_chart(butterfly_df, None)
 }
 
 app.layout = create_layout(figures)
@@ -110,6 +110,7 @@ def save_selection(btn1, btn2, temp_country):
 @app.callback(
     Output("stacked-bar", "figure"),
     Output("butterfly", "figure"),
+    Output("radar", "figure"),
     Input("selected-ctry1-store", "data"),
     Input("selected-ctry2-store", "data"),
     prevent_initial_call=True
@@ -123,7 +124,11 @@ def update_secondary_graphs(country_name1, country_name2):
     butterfly_data = get_butterfly_data(df_clean, country_name1, country_name2)
     butterfly_fig = create_butterfly_chart(butterfly_data, country_name2)
     
-    return stacked_fig, butterfly_fig
+    # Update radar chart
+    radar_data = get_radar_data(df_clean, country_name1, country_name2)
+    radar_fig = create_radar_chart(radar_data)
+
+    return stacked_fig, butterfly_fig, radar_fig
 
 # Update country labels based on selections
 @app.callback(

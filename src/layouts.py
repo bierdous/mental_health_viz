@@ -156,7 +156,9 @@ def create_layout(figures=None):
                                         className="stacked-bar-chart",
                                         children=dcc.Graph(
                                             id="stacked-bar",
-                                            figure=figures.get('stacked_bar', {})
+                                            figure=figures.get('stacked_bar', {}),
+                                            responsive=True,
+                                            style={'height': '100%', 'width': '100%'}
                                         )
                                     )
                                 ]
@@ -176,7 +178,9 @@ def create_layout(figures=None):
                                 className="choropleth",
                                 children=[dcc.Graph(
                                     id="choropleth", 
-                                    figure=figures.get('choropleth', {})
+                                    figure=figures.get('choropleth', {}),
+                                    responsive=True,
+                                    style={'height': '100%', 'width': '100%'}
                             ),
                             html.Div(
                                 id="popup",
@@ -208,7 +212,9 @@ def create_layout(figures=None):
                                 className="butterfly-chart",
                                 children=dcc.Graph(
                                     id="butterfly",
-                                    figure=figures.get('butterfly', {})
+                                    figure=figures.get('butterfly', {}),
+                                    responsive=True,
+                                    style={'height': '100%', 'width': '100%'}
                                 )
                             )
                         ]
@@ -218,7 +224,9 @@ def create_layout(figures=None):
                         className="radar",
                         children=dcc.Graph(
                             id="radar",
-                            figure=figures.get('radar', {})
+                            figure=figures.get('radar', {}),
+                            responsive=True,
+                            style={'height': '100%', 'width': '100%'}
                         )
                     )
                 ]
