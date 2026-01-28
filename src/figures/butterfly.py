@@ -1,6 +1,6 @@
 import plotly.graph_objects as go
 
-def create_butterfly_chart(butterfly_data, country2=None):
+def create_butterfly_chart(butterfly_data):
 
     countries = [butterfly_data["country1"]]
     if butterfly_data["country2"]:
@@ -31,7 +31,7 @@ def create_butterfly_chart(butterfly_data, country2=None):
                 name=country['name'],
                 marker_color="#1f77b4" if country['name'] == countries[0]['name'] else "#d62728",
                 hovertemplate='%{y}: %{customdata}',
-                showlegend=True if len(countries) > 1 and status == 'employed' else False
+                showlegend=True if status == 'employed' else False
             ))
 
     fig.update_layout(

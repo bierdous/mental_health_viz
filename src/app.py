@@ -33,7 +33,7 @@ figures = {
     'choropleth': create_choropleth(choropleth_df, 'treatment_rate'),
     'radar': create_radar_chart(radar_df),
     'stacked_bar': create_stacked_bar_chart(stacked_df),
-    'butterfly': create_butterfly_chart(butterfly_df, None)
+    'butterfly': create_butterfly_chart(butterfly_df)
 }
 
 app.layout = create_layout(figures)
@@ -122,7 +122,7 @@ def update_secondary_graphs(country_name1, country_name2):
     
     # Update butterfly chart
     butterfly_data = get_butterfly_data(df_clean, country_name1, country_name2)
-    butterfly_fig = create_butterfly_chart(butterfly_data, country_name2)
+    butterfly_fig = create_butterfly_chart(butterfly_data)
     
     # Update radar chart
     radar_data = get_radar_data(df_clean, country_name1, country_name2)

@@ -439,7 +439,7 @@ def get_butterfly_data(df, country1=None, country2=None):
         country1_name = country1
     else:
         country1_df = df
-        country1_name = "World"
+        country1_name = "Global"
 
     country1_agg = aggregate_butterfly_for_country(country1_df)
     
