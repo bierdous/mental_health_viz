@@ -58,7 +58,7 @@ def create_layout(figures=None):
                                     html.Div(
                                         className="title",
                                         children=[
-                                            html.Div("Mental Health", className="mental-health")
+                                            html.Div("Mental Health Dashboard", className="mental-health")
                                         ]
                                     ),
                                     # Toggles Container

@@ -96,8 +96,10 @@ body {
     flex-direction: column;
     /* let this column fill the row height and participate in flex sizing */
     flex: 1 1 auto;
-    align-self: stretch;
+    align-self: flex-end;
     width: 40%;
+    height: 100%;
+    align-items: stretch;
     position: relative;
 
 }
@@ -110,13 +112,13 @@ body {
     justify-content: center;
     align-self: stretch;
     flex: 1;
-    height: 20%;
+    height: 100%;
     position: relative;
 }
 
 .mental-health {
     color: #000000;
-    text-align: center;
+    text-align: left;
     font-family: var(--font-main);
     font-weight: 500;
     font-size: var(--fs-xl);
@@ -126,14 +128,14 @@ body {
 .toggles {
     background: #ffffff;
     border-radius: var(--radius-l) var(--radius-l) 0px 0px;
-    padding: var(--space-4) var(--space-4) 0 var(--space-4);
+    padding: var(--space-4) var(--space-4) var(--space-4) var(--space-4);
     display: flex;
     flex-direction: column;
     gap: var(--space-4);
     align-items: stretch;
     justify-content: start;
     align-self: stretch;
-    height: 80%;
+    height: auto;
     position: relative;
 }
 
