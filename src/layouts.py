@@ -1,4 +1,5 @@
 from dash import html, dcc
+import dash_bootstrap_components as dbc
 
 # Metric options for dropdown (value -> label)
 METRIC_OPTIONS = [
@@ -58,7 +59,41 @@ def create_layout(figures=None):
                                     html.Div(
                                         className="title",
                                         children=[
-                                            html.Div("Mental Health Dashboard", className="mental-health")
+                                            html.Div("Mental Health Dashboard", className="mental-health"),
+                                            html.Div(className="info-btns", children=[
+                                               dbc.Button(
+                                                    children=[
+                                                        html.I(className="bi bi-info-lg"),
+                                                    ],
+                                                    id="about-btn",
+                                                    color="light",
+                                                    n_clicks=0,
+                                                ),
+                                                dbc.Popover(
+                                                    [
+                                                        dbc.PopoverHeader("Popover header"),
+                                                        dbc.PopoverBody("And here's some amazing content. Cool!"),
+                                                    ],
+                                                    target="about-btn",
+                                                    trigger="click",
+                                                ), 
+                                                dbc.Button(
+                                                    children=[
+                                                        html.I(className="bi bi-question-lg"),
+                                                    ],
+                                                    color="light",
+                                                    id="use-btn",
+                                                    n_clicks=0,
+                                                ),
+                                                dbc.Popover(
+                                                    [
+                                                        dbc.PopoverHeader("Popover header"),
+                                                        dbc.PopoverBody("And here's some amazing content. Cool!"),
+                                                    ],
+                                                    target="use-btn",
+                                                    trigger="click",
+                                                ),
+                                            ])
                                         ]
                                     ),
                                     # Toggles Container
@@ -85,7 +120,7 @@ def create_layout(figures=None):
                                                                     ),
                                                                     html.Div(className="trash", id="ctry-1-trash",
                                                                         children=[
-                                                                            html.Img(className="trash_svg", src="assets/trash.svg")
+                                                                            html.I(className="bi bi-trash-fill")
                                                                         ]
                                                                     )
                                                                 ]
@@ -102,7 +137,7 @@ def create_layout(figures=None):
                                                                     ),
                                                                     html.Div(className="trash", id="ctry-2-trash",
                                                                         children=[
-                                                                            html.Img(className="trash_svg", src="assets/trash.svg")
+                                                                            html.I(className="bi bi-trash-fill")
                                                                         ]
                                                                     )
                                                                 ]
@@ -209,7 +244,7 @@ def create_layout(figures=None):
                                         html.Div("Angola", id="header-text", className="header-text"),
                                         html.Div(className="close", id="popup-close",
                                             children=[
-                                                html.Img(className="close-icon", src="assets/close.png")
+                                                html.I(className="bi bi-x-lg")
                                             ])
                                     ]),
                                     html.Div(className="percentage-metric", children=[
@@ -218,8 +253,8 @@ def create_layout(figures=None):
                                     ]),
                                     html.Div(className="sel-btn-area",
                                         children=[
-                                            html.Button("Select as first", id="btn-sel1", n_clicks=0, className="sel-btn sel-btn1-bg"),
-                                            html.Button("Select as second", id="btn-sel2", n_clicks=0, className="sel-btn sel-btn2-bg")
+                                            dbc.Button("Select as first", id="btn-sel1", n_clicks=0, className="sel-btn sel-btn1-bg"),
+                                            dbc.Button("Select as second", id="btn-sel2", n_clicks=0, className="sel-btn sel-btn2-bg")
                                         ])
                                 ]
                             ),

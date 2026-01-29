@@ -1,5 +1,6 @@
 import dash
 from dash import Dash, html, dcc, callback, Output, Input, State, ctx
+import dash_bootstrap_components as dbc
 import plotly.express as px
 import pandas as pd
 
@@ -15,7 +16,7 @@ GOOGLE_FONTS = "https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700
 
 app = Dash(
     __name__,
-    external_stylesheets=[GOOGLE_FONTS],
+    external_stylesheets=[dbc.themes.BOOTSTRAP, dbc.icons.BOOTSTRAP, GOOGLE_FONTS],
     assets_folder="../assets"
 )
     
