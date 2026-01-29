@@ -71,11 +71,36 @@ def create_layout(figures=None):
                                                 ),
                                                 dbc.Popover(
                                                     [
-                                                        dbc.PopoverHeader("Popover header"),
-                                                        dbc.PopoverBody("And here's some amazing content. Cool!"),
+                                                        dbc.PopoverHeader("About the dashboard"),
+                                                        dbc.PopoverBody([
+                                                            html.H5("Dataset"),
+                                                            html.P([
+                                                                "This dashboard utilizes a dataset regarding mental health in the tech workplace. ",
+                                                                "You can find the dataset ",
+                                                                html.A("here", href="https://www.kaggle.com/datasets/bhavikjikadara/mental-health-dataset", target="_blank"),
+                                                                "."
+                                                            ]),
+                                                            html.P("The dataset contains survey responses from employees in the tech sector, covering various aspects of mental health and workplace culture."),
+                                                            
+                                                            html.H5("Reliability Disclaimer"),
+                                                            html.P("Please note that this dataset is not reliable. It was copied from another source, and rows were artificially added to increase the data volume."),
+                                                            
+                                                            html.H5("Data Transformations"),
+                                                            html.Ul([
+                                                                html.Li("Missing values in the 'self_employed' column were replaced with an 'Unknown' category to maintain data integrity."),
+                                                            ]),
+
+                                                            html.H5("Views"),
+                                                            html.P("The dashboard presents data through several views: a world map for global overview, and comparative charts (stacked bar, butterfly, radar) for detailed analysis of selected countries."),
+
+                                                            html.H5("Authors"),
+                                                            html.P("Marek Dohnal, Petr Polách"),
+                                                            html.P("Created for the Visualization course at Faculty of Informatics, MUNI, 2026"),
+                                                        ]),
                                                     ],
                                                     target="about-btn",
                                                     trigger="click",
+                                                    style={"maxWidth": "600px"},
                                                 ), 
                                                 dbc.Button(
                                                     children=[
@@ -87,11 +112,33 @@ def create_layout(figures=None):
                                                 ),
                                                 dbc.Popover(
                                                     [
-                                                        dbc.PopoverHeader("Popover header"),
-                                                        dbc.PopoverBody("And here's some amazing content. Cool!"),
+                                                        dbc.PopoverHeader("How to use the dashboard"),
+                                                        dbc.PopoverBody([
+                                                            html.H5("Interactivity"),
+                                                            html.Ul([
+                                                                html.Li("Select a country by clicking on the map, then choose 'Select as first' or 'Select as second'."),
+                                                                html.Li("Compare up to two countries to see detailed charts update automatically."),
+                                                                html.Li("Change the mapped metric using the 'Mental health indicator' dropdown."),
+                                                                html.Li("Remove a country selection by clicking the trash icon."),
+                                                            ]),
+                                                            
+                                                            html.H5("Views"),
+                                                            html.B("World Map"),
+                                                            html.P("Displays the global distribution of the selected mental health indicator."),
+                                                            
+                                                            html.B("Stacked Bar Chart"),
+                                                            html.P("Shows how social weakness influences the likelihood to mention mental health issues at an interview."),
+                                                            
+                                                            html.B("Butterfly Chart"),
+                                                            html.P("Contrasts the 'Time Spent Indoors' for employed vs. self-employed respondents."),
+                                                            
+                                                            html.B("Radar Chart"),
+                                                            html.P("Provides a holistic comparison of multiple key mental health metrics simultaneously."),
+                                                        ]),
                                                     ],
                                                     target="use-btn",
                                                     trigger="click",
+                                                    style={"maxWidth": "600px"},
                                                 ),
                                             ])
                                         ]
