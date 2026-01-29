@@ -65,4 +65,5 @@ def create_choropleth(df, metric_label):
         font_color="black"
     )
     
+    fig.update_traces(hoverinfo='none', hovertemplate=None)
     return fig

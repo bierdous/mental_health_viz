@@ -16,6 +16,23 @@ METRIC_OPTIONS = [
     {'value': 'mental_health_interview_rate', 'label': 'Opening up About Mental Health at an Interview'},
 ]
 
+
+# Metric options for popup description (value -> label)
+POPUP_DESC = [
+    {'value': 'treatment_rate', 'label': 'seeked treatment'},
+    {'value': 'self_employment_rate', 'label': 'are self-employed'},
+    {'value': 'family_history_rate', 'label': 'have a family history of mental illness'},
+    {'value': 'growing_stress_rate', 'label': 'experience growing stress'},
+    {'value': 'changes_habits_rate', 'label': 'changed their habits'},
+    {'value': 'mental_health_history_rate', 'label': 'have a personal history of mental illness'},
+    {'value': 'high_mood_swings_rate', 'label': 'experience high mood swings'},
+    {'value': 'work_interest_rate', 'label': 'have an interest in their work'},
+    {'value': 'coping_struggles_rate', 'label': 'struggle to cope'},
+    {'value': 'social_weakness_rate', 'label': 'experience social weakness'},
+    {'value': 'care_options_available_rate', 'label': 'are aware of employer offered care options'},
+    {'value': 'mental_health_interview_rate', 'label': 'would open up about mental health at an interview'},
+]
+
 def create_layout(figures=None):
     if figures is None:
         figures = {}
@@ -98,6 +115,7 @@ def create_layout(figures=None):
                                             html.Div(
                                                 className="metric-selector",
                                                 children=[
+                                                    dcc.Store(id='sel-metric-store', data='treatment_rate'),
                                                     html.Div("Mental health indicator", className="toggles-label"),
                                                     # Using Dash Dropdown instead of static HTML
                                                     html.Div(
@@ -115,35 +133,35 @@ def create_layout(figures=None):
                                                         ]
                                                     )
                                                 ]
-                                            ),
-                                            # Map Detail Toggle
-                                            html.Div(
-                                                className="map-detail",
-                                                children=[
-                                                    html.Div("Map detail", className="toggles-label"),
-                                                    html.Div(
-                                                        className="detail-picker",
-                                                        children=[
-                                                            html.Div(
-                                                                className="trailing-accessories",
-                                                                children=[
-                                                                    html.Div("Continent", className="label"),
-                                                                    html.Div(
-                                                                        className="push-button",
-                                                                        children=[
-                                                                            html.Div(
-                                                                                className="bg",
-                                                                                children=[html.Div(className="black")]
-                                                                            ),
-                                                                            html.Div("Country", className="label2")
-                                                                        ]
-                                                                    )
-                                                                ]
-                                                            )
-                                                        ]
-                                                    )
-                                                ]
                                             )
+                                            # Map Detail Toggle
+                                            # html.Div(
+                                            #     className="map-detail",
+                                            #     children=[
+                                            #         html.Div("Map detail", className="toggles-label"),
+                                            #         html.Div(
+                                            #             className="detail-picker",
+                                            #             children=[
+                                            #                 html.Div(
+                                            #                     className="trailing-accessories",
+                                            #                     children=[
+                                            #                         html.Div("Continent", className="label"),
+                                            #                         html.Div(
+                                            #                             className="push-button",
+                                            #                             children=[
+                                            #                                 html.Div(
+                                            #                                     className="bg",
+                                            #                                     children=[html.Div(className="black")]
+                                            #                                 ),
+                                            #                                 html.Div("Country", className="label2")
+                                            #                             ]
+                                            #                         )
+                                            #                     ]
+                                            #                 )
+                                            #             ]
+                                            #         )
+                                            #     ]
+                                            # )
                                         ]
                                     )
                                 ]
@@ -184,14 +202,25 @@ def create_layout(figures=None):
                             ),
                             html.Div(
                                 id="popup",
+                                className="popup",
                                 style={"display": "none"},
                                 children=[
-                                    html.Div(id="popup-text", style={"marginBottom": "10px"}),
-
-                                    html.Button("Set as Selected 1", id="btn-sel1", n_clicks=0,
-                                                style={"marginRight": "10px"}),
-
-                                    html.Button("Set as Selected 2", id="btn-sel2", n_clicks=0),
+                                    html.Div(className="header", children=[
+                                        html.Div("Angola", id="header-text", className="header-text"),
+                                        html.Div(className="close", id="popup-close",
+                                            children=[
+                                                html.Img(className="close-icon", src="assets/close.png")
+                                            ])
+                                    ]),
+                                    html.Div(className="percentage-metric", children=[
+                                        html.Div("23%", id="percentage", className="percentage"),
+                                        html.Div("Seeking Treatment", id="metric-desc", className="metric-desc")
+                                    ]),
+                                    html.Div(className="sel-btn-area",
+                                        children=[
+                                            html.Button("Select as first", id="btn-sel1", n_clicks=0, className="sel-btn sel-btn1-bg"),
+                                            html.Button("Select as second", id="btn-sel2", n_clicks=0, className="sel-btn sel-btn2-bg")
+                                        ])
                                 ]
                             ),
                             ]

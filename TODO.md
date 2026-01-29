@@ -7,7 +7,7 @@
 - Vycentrovat nadpisy grafů - hotovo
 
 ## Marek
-- Udělat hezký popup + smazat defaultní
+- Udělat hezký popup + smazat defaultní - hotovo
 - Hezčí font
 - Nějak vyřešit popis - vedle choroplethu?
-- Map detail pryč
+- Map detail pryč - hotovo

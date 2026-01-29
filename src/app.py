@@ -3,7 +3,7 @@ from dash import Dash, html, dcc, callback, Output, Input, State, ctx
 import plotly.express as px
 import pandas as pd
 
-from .layouts import create_layout, METRIC_OPTIONS
+from .layouts import create_layout, METRIC_OPTIONS, POPUP_DESC
 from .preprocessing import clean_and_convert_types, get_choropleth_data, get_butterfly_data, get_radar_data,  get_stacked_bar_data
 from .figures.choropleth import create_choropleth
 from .figures.radar import create_radar_chart
@@ -41,46 +41,56 @@ app.layout = create_layout(figures)
 # Callback to update choropleth based on dropdown selection
 @callback(
     Output('choropleth', 'figure'),
+    Output('sel-metric-store', 'data'),
     Input('metric-dropdown', 'value')
 )
 
 def update_choropleth(selected_metric):
     # Get label for the selected metric
-    metric_label = next(
-        (opt['label'] for opt in METRIC_OPTIONS if opt['value'] == selected_metric),
-        selected_metric
-    )
     
     # Generate new choropleth data
     choropleth_data = get_choropleth_data(df_clean, selected_metric)
     
     # Create and return the updated figure
-    return create_choropleth(choropleth_data, selected_metric)
+    return create_choropleth(choropleth_data, selected_metric), selected_metric
 
 # Callback to display popup on country click
 @callback(
     Output("popup", "style"),
+    Output("header-text", "children"),
+    Output("percentage", "children"),
+    Output("metric-desc", "children"),
     Output("temp-click-store", "data"),
-    Input("choropleth", "clickData")
+    Input("choropleth", "clickData"),
+    State("sel-metric-store", "data")
 )
 
-def display_popup(clickData):
+def display_popup(clickData, selected_metric):
     if clickData is None:
         return {
                 "display": "none",
-                }, None
+                }, None, None, None, None
     
-    country_name = clickData['points'][0]['hovertext']
+    country_name = clickData['points'][0]['customdata'][0]
+    percentage = f"{round(clickData['points'][0]['customdata'][1])}%"
+
+    metric_label = next(
+        (opt['label'] for opt in POPUP_DESC if opt['value'] == selected_metric),
+        selected_metric
+    )
     return {
-            "display": "block",
-            "position": "absolute",
             "top": clickData['points'][0]['bbox']['y0'],
             "left": clickData['points'][0]['bbox']['x0'],
-            "background": "white",
-            "padding": "20px",
-            "border": "2px solid black",
-            "zIndex": 1000,
-            }, country_name
+            }, country_name, percentage, metric_label, country_name
+
+# Close popup
+@app.callback(
+    Output("popup", "style", allow_duplicate=True),
+    Input("popup-close", "n_clicks"),
+    prevent_initial_call=True
+)
+def close_popup(clicks):
+    return {"display": "none"}
 
 # Save selected country to the appropriate slot
 @app.callback(
