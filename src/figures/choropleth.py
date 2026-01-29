@@ -5,21 +5,6 @@ import plotly.express as px
 Custom titles for choropleth maps based on the selected metric.
 """
 
-CHOROPLETH_TITLES = {
-    'treatment_rate': "Seeking Treatment for Mental Health Issues",
-    'self_employment_rate': "Self-Employment",
-    'family_history_rate': "Family History of Mental Health Issues",
-    'growing_stress_rate': "Perceived Growing Stress Levels",
-    'changes_habits_rate': "Perceived Changes in Habits",
-    'mental_health_history_rate': "Personal History of Mental Health Issues",
-    'high_mood_swings_rate': "Perceived High Mood Swings",
-    'work_interest_rate': "Reported Work Interest",
-    'coping_struggles_rate': "Reported Struggle to Cope",
-    'social_weakness_rate': "Reported Social Weakness",
-    'care_options_available_rate': "Awareness of Care Options Provided by Employer",
-    'mental_health_interview_rate': "Willigness to Bring Up Mental Health in an Interview"
-}
-
 def create_choropleth(df, metric_label):
     """
     Create a choropleth map visualization.
@@ -48,22 +33,41 @@ def create_choropleth(df, metric_label):
             "metric_value": "Share of Respondents (%)",
             "respondents": "Number of Respondents"
         },
-        title=CHOROPLETH_TITLES[metric_label]
+        #title=CHOROPLETH_TITLES[metric_label]
     )
     
     fig.update_layout(
-        margin={"r": 0, "t": 50, "l": 0, "b": 0},
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
         geo=dict(
             showframe=False,
             showcoastlines=False,
             projection_type='equirectangular',
+            domain=dict(x=[0.3, 1.0], y=[0, 1.0]),
             bgcolor="rgba(0,0,0,0)"
         ),  
         font_family="Roboto",
-        font_color="black"
+        font_color="black",
+
+        # 1. MAXIMIZE THE MAP AREA
+        # Setting margins to 0 forces the map to touch the edges of the Div
+        margin=dict(l=0, r=0, t=10, b=10),
+        
+        # Optional: If you want the map to zoom automatically to fit the countries you have
+        # geo=dict(fitbounds="locations", visible=False), 
+
+        # 2. SHRINK AND POSITION THE LEGEND (Colorbar)
+        coloraxis_colorbar=dict(
+        # Size
+        len=0.6,          # Height: 0.4 means 40% of the screen height
+        thickness=40,     # Width: 10 pixels thin
+        
+        # Position (Floating inside the map)
+        xanchor="right",  # Anchor to the right side
+        x=0.21,           # 0.98 means "2% away from the right edge"
+        yanchor="bottom", # Anchor to the bottom
+        y=0.05,           # 5% up from the bottom edge
+        )
     )
-    
     fig.update_traces(hoverinfo='none', hovertemplate=None)
     return fig

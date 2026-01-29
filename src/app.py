@@ -4,7 +4,7 @@ import dash_bootstrap_components as dbc
 import plotly.express as px
 import pandas as pd
 
-from .layouts import create_layout, METRIC_OPTIONS, POPUP_DESC
+from .layouts import create_layout, METRIC_OPTIONS, POPUP_DESC, CHOROPLETH_TITLES
 from .preprocessing import clean_and_convert_types, get_choropleth_data, get_butterfly_data, get_radar_data,  get_stacked_bar_data
 from .figures.choropleth import create_choropleth
 from .figures.radar import create_radar_chart
@@ -17,8 +17,29 @@ GOOGLE_FONTS = "https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700
 app = Dash(
     __name__,
     external_stylesheets=[dbc.themes.BOOTSTRAP, dbc.icons.BOOTSTRAP, GOOGLE_FONTS],
-    assets_folder="../assets"
+    assets_folder="../assets",
+    title="Mental Health Dashboard"
 )
+
+app.index_string = '''
+<!DOCTYPE html>
+<html>
+    <head>
+        {%metas%}
+        <title>{%title%}</title>
+        <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+        {%css%}
+    </head>
+    <body>
+        {%app_entry%}
+        <footer>
+            {%config%}
+            {%scripts%}
+            {%renderer%}
+        </footer>
+    </body>
+</html>
+'''
     
 # Load and clean data
 df_clean = clean_and_convert_types()
@@ -43,6 +64,7 @@ app.layout = create_layout(figures)
 @callback(
     Output('choropleth', 'figure'),
     Output('sel-metric-store', 'data'),
+    Output('choropleth-title', 'children'),
     Input('metric-dropdown', 'value')
 )
 
@@ -52,8 +74,8 @@ def update_choropleth(selected_metric):
     # Generate new choropleth data
     choropleth_data = get_choropleth_data(df_clean, selected_metric)
     
-    # Create and return the updated figure
-    return create_choropleth(choropleth_data, selected_metric), selected_metric
+    # Create and return the updated figure, metric, and title
+    return create_choropleth(choropleth_data, selected_metric), selected_metric, CHOROPLETH_TITLES[selected_metric]
 
 # Callback to display popup on country click
 @callback(
@@ -79,9 +101,12 @@ def display_popup(clickData, selected_metric):
         (opt['label'] for opt in POPUP_DESC if opt['value'] == selected_metric),
         selected_metric
     )
+
+    popup_top = min(clickData['points'][0]['bbox']['y0'], 160)
+    popup_left = clickData['points'][0]['bbox']['x0']
     return {
-            "top": clickData['points'][0]['bbox']['y0'],
-            "left": clickData['points'][0]['bbox']['x0'],
+            "top": popup_top,
+            "left": popup_left,
             }, country_name, percentage, metric_label, country_name
 
 # Close popup

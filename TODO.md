@@ -9,5 +9,5 @@
 ## Marek
 - Udělat hezký popup + smazat defaultní - hotovo
 - Hezčí font
-- Nějak vyřešit popis - vedle choroplethu?
+- Nějak vyřešit popis - vedle choroplethu? - hotovo
 - Map detail pryč - hotovo

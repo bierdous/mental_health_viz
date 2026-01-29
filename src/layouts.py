@@ -34,6 +34,22 @@ POPUP_DESC = [
     {'value': 'mental_health_interview_rate', 'label': 'would open up about mental health at an interview'},
 ]
 
+
+CHOROPLETH_TITLES = {
+    'treatment_rate': "Seeking Treatment for Mental Health Issues",
+    'self_employment_rate': "Self-Employment",
+    'family_history_rate': "Family History of Mental Health Issues",
+    'growing_stress_rate': "Perceived Growing Stress Levels",
+    'changes_habits_rate': "Perceived Changes in Habits",
+    'mental_health_history_rate': "Personal History of Mental Health Issues",
+    'high_mood_swings_rate': "Perceived High Mood Swings",
+    'work_interest_rate': "Reported Work Interest",
+    'coping_struggles_rate': "Reported Struggle to Cope",
+    'social_weakness_rate': "Reported Social Weakness",
+    'care_options_available_rate': "Awareness of Care Options Provided by Employer",
+    'mental_health_interview_rate': "Willigness to Bring Up Mental Health in an Interview"
+}
+
 def create_layout(figures=None):
     if figures is None:
         figures = {}
@@ -269,6 +285,11 @@ def create_layout(figures=None):
                     html.Div(
                         className="choropleth-area-bg",
                         children=[
+                            html.Div(
+                                id="choropleth-title",
+                                children=CHOROPLETH_TITLES['treatment_rate'],
+                                className="choropleth-title"
+                            ),
                             # Stores the country immediately clicked (temporary)
                             dcc.Store(id='temp-click-store'),
                             # The final selections used by other charts

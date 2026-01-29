@@ -1,4 +1,3 @@
-
 /* --- Responsive foundation & design tokens ------------------------------ */
 :root {
     /* Country colors */
@@ -44,7 +43,6 @@ body {
     padding: 0;
     width: 100vw;
     height: 100vh;
-    overflow: hidden;
 }
 
 .dashboard,
@@ -62,7 +60,8 @@ body {
     justify-content: flex-start;
     height: 100vh;
     position: relative;
-    overflow: hidden;
+    min-width: 1000px;
+    min-height: 600px;
 }
 
 .left-panel {
@@ -75,7 +74,7 @@ body {
     flex-shrink: 0;
     width: var(--left_panel_width);
     position: relative;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .toggles-bar-chart {
@@ -198,9 +197,13 @@ body {
     position: relative;
 }
 
-.ctry-1-bg { background: var(--ctry1_color);}
+.ctry-1-bg {
+    background: var(--ctry1_color);
+}
 
-.ctry-2-bg { background: var(--ctry2_color);}
+.ctry-2-bg {
+    background: var(--ctry2_color);
+}
 
 .ctry-name {
     color: #ffffff;
@@ -227,7 +230,7 @@ body {
 
 .trash_svg {
     width: var(--fs-md);
-    display: flex;  
+    display: flex;
     position: relative;
 }
 
@@ -276,15 +279,25 @@ body {
     justify-content: center;
     align-self: stretch;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     height: 50%;
 }
 
 .choropleth {
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-end;
+    align-items: flex-end;
     width: 100%;
     height: 100%;
+}
+
+.choropleth-title {
+    position: absolute;
+    top: var(--space-4);
+    left: var(--space-4);
+    max-width: 220px;
+    font-weight: normal;
+    font-size: var(--fs-md);
+    z-index: 10;
 }
 
 /* The actual dialog */
@@ -298,7 +311,7 @@ body {
     border-radius: var(--radius-m);
     background: #FFF;
     box-shadow: 0 6px 6px 0 rgba(0, 0, 0, 0.25);
-    overflow: hidden;
+    overflow: visible;
 }
 
 .header {
@@ -318,7 +331,8 @@ body {
     font-size: var(--fs-md);
     font-style: normal;
     font-weight: 600;
-    line-height: 150%; /* 24.636px */
+    line-height: 150%;
+    /* 24.636px */
 }
 
 .close {
@@ -349,7 +363,8 @@ body {
     font-size: 33px;
     font-style: normal;
     font-weight: 500;
-    line-height: 150%; /* 49.271px */
+    line-height: 150%;
+    /* 49.271px */
 }
 
 .metric-desc {
@@ -361,7 +376,8 @@ body {
     font-size: var(--fs-sm);
     font-style: normal;
     font-weight: 300;
-    line-height: 150%; /* 16.5px */
+    line-height: 150%;
+    /* 16.5px */
 }
 
 .sel-btn-area {
@@ -414,7 +430,7 @@ body {
     align-self: stretch;
     flex: 1;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .butterfly-chart-area {
@@ -443,6 +459,6 @@ body {
     display: flex;
     flex-direction: column;
     align-self: stretch;
-    overflow: hidden;
+    overflow: visible;
     height: 50%;
 }
