@@ -91,19 +91,17 @@ def create_layout(figures=None):
                                                         dbc.PopoverBody([
                                                             html.H5("Dataset"),
                                                             html.P([
-                                                                "This dashboard utilizes a dataset regarding mental health in the tech workplace. ",
+                                                                "This dashboard utilizes a dataset of answers to mental health surveys. ",
                                                                 "You can find the dataset ",
-                                                                html.A("here", href="https://www.kaggle.com/datasets/bhavikjikadara/mental-health-dataset", target="_blank"),
-                                                                "."
-                                                            ]),
-                                                            html.P("The dataset contains survey responses from employees in the tech sector, covering various aspects of mental health and workplace culture."),
-                                                            
-                                                            html.H5("Reliability Disclaimer"),
-                                                            html.P("Please note that this dataset is not reliable. It was copied from another source, and rows were artificially added to increase the data volume."),
+                                                                html.A("here", href="https://www.kaggle.com/datasets/bhavikjikadara/mental-health-dataset", target="_blank"), ". The dataset is presented on Kaggle as a generic mental health dataset, however it is very likely based on the ",
+                                                             html.A("OSMI Mental Health in Tech Survey from 2014", href="https://www.kaggle.com/datasets/osmi/mental-health-in-tech-survey",target="_blank"), "."
+                                                             ]),
+                                                            html.H5("Reliability of the Data"),
+                                                            html.P("During the preparation of this dashboard, we realized, that the dataset has been artificially inflated by several hundred thousand rows (about 200k rows of our dataset vs roughly 2k of the original OSMI). The visualization shows, that the inflation was done very poorly, which is most visibly reflected in perfect 100% or 10% values in some categories. However, at this point it was sadly too late to change datasets."),
                                                             
                                                             html.H5("Data Transformations"),
                                                             html.Ul([
-                                                                html.Li("Missing values in the 'self_employed' column were replaced with an 'Unknown' category to maintain data integrity."),
+                                                                html.Li("Missing values (about 1.78%) in the 'self_employed' column were replaced with an 'Unknown' category to maintain all entries."),
                                                             ]),
 
                                                             html.H5("Views"),
