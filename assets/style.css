@@ -263,12 +263,14 @@ body {
     gap: var(--space-1);
     flex-shrink: 0;
     align-self: stretch;
+    z-index: 10;
 }
 
 .dropdown-metric-area {
     width: 100%;
     font-family: var(--font-main);
     font-size: var(--fs-sm);
+    z-index: 10;
 }
 
 .stacked-bar-chart-area {
@@ -320,7 +322,6 @@ body {
     max-width: 220px;
     font-weight: normal;
     font-size: var(--fs-md);
-    z-index: 10;
 }
 
 /* The actual dialog */
