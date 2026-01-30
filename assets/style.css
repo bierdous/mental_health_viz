@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Murecho:wght@100..900&display=swap');
+
 /* --- Responsive foundation & design tokens ------------------------------ */
 :root {
     /* Country colors */
@@ -18,12 +21,13 @@
     --fs-sm: clamp(0.5rem, 1.2vw, 1rem);
     --fs-md: clamp(0.75rem, 1.6vw, 1.125rem);
     --fs-lg: clamp(1.25rem, 2vw, 1.5rem);
-    --fs-xl: clamp(1rem, 3vw, 1.8rem);
+    --fs-xl: clamp(1rem, 3vw, 2.4rem);
     --fs-xxl: clamp(2.25rem, 4vw, 3rem);
 
     --left_panel_width: 60vw;
 
     --font-main: "Roboto", sans-serif;
+    --font-title: "Murecho", sans-serif;
 }
 
 *,
@@ -118,7 +122,7 @@ body {
 .mental-health {
     color: #000000;
     text-align: left;
-    font-family: var(--font-main);
+    font-family: var(--font-title);
     font-weight: 500;
     font-size: var(--fs-xl);
     position: relative;
@@ -132,7 +136,23 @@ body {
     justify-content: stretch;
     height: auto;
     gap: var(--space-2);
+    font-family: var(--font-main);
 }
+
+.popover {
+    font-family: var(--font-main);
+}
+
+.popover-header {
+    font-family: var(--font-title);
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.popover h5 {
+    font-family: var(--font-title);
+}
+
 
 .toggles {
     background: #ffffff;
@@ -162,7 +182,7 @@ body {
 .toggles-label {
     color: #000000;
     text-align: left;
-    font-family: var(--font-main);
+    font-family: var(--font-title);
     font-size: var(--fs-md);
     font-weight: 600;
     position: relative;
@@ -281,6 +301,7 @@ body {
     position: relative;
     overflow: visible;
     height: 50%;
+    outline: none;
 }
 
 .choropleth {
@@ -291,6 +312,7 @@ body {
 }
 
 .choropleth-title {
+    font-family: var(--font-title);
     position: absolute;
     top: var(--space-4);
     left: var(--space-4);
@@ -327,7 +349,7 @@ body {
     height: auto;
     flex: 1 0 0;
     color: #000;
-    font-family: Roboto;
+    font-family: var(--font-main);
     font-size: var(--fs-md);
     font-style: normal;
     font-weight: 600;
@@ -359,7 +381,7 @@ body {
     flex-direction: column;
     justify-content: center;
     color: #000000;
-    font-family: Roboto;
+    font-family: var(--font-main);
     font-size: 33px;
     font-style: normal;
     font-weight: 500;
@@ -372,7 +394,7 @@ body {
     max-width: 120px;
     flex: 1 0 0;
     color: #212121;
-    font-family: Roboto;
+    font-family: var(--font-main);
     font-size: var(--fs-sm);
     font-style: normal;
     font-weight: 300;
@@ -398,7 +420,7 @@ body {
     gap: 6px;
     flex: 1 0 0;
     color: #FFFFFF;
-    font-family: "Roboto";
+    font-family: var(--font-main);
     font-size: var(--fs-xs);
     font-style: normal;
     font-weight: 600;

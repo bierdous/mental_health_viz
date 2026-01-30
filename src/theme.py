@@ -17,12 +17,16 @@ STACKED_CHART_COLOR = {
     },
 }
 
+FONT = "Roboto"
+FONT_TITLE="Murecho"
+
 CHART_TITLE_STYLE = dict(
     x=0.5,
     xanchor="center",
     y=0.95,
     font=dict(
-        size=17,
+        family=FONT_TITLE,
+        size=18,
         color="#000000"
     )
 )

@@ -1,5 +1,5 @@
 import plotly.express as px
-
+from ..theme import FONT
 
 """
 Custom titles for choropleth maps based on the selected metric.
@@ -46,12 +46,12 @@ def create_choropleth(df, metric_label):
             domain=dict(x=[0.3, 1.0], y=[0, 1.0]),
             bgcolor="rgba(0,0,0,0)"
         ),  
-        font_family="Roboto",
+        font_family=FONT,
         font_color="black",
 
         # 1. MAXIMIZE THE MAP AREA
         # Setting margins to 0 forces the map to touch the edges of the Div
-        margin=dict(l=0, r=0, t=10, b=10),
+        margin=dict(l=30, r=30, t=10, b=10),
         
         # Optional: If you want the map to zoom automatically to fit the countries you have
         # geo=dict(fitbounds="locations", visible=False), 

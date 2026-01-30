@@ -1,6 +1,6 @@
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
-from ..theme import STACKED_CHART_COLOR, CHART_TITLE_STYLE
+from ..theme import STACKED_CHART_COLOR, CHART_TITLE_STYLE, FONT
 
 def create_stacked_bar_chart(stacked_data):
     """
@@ -66,7 +66,7 @@ def create_stacked_bar_chart(stacked_data):
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
         legend_title="Mental Health Interview",
-        font_family="Roboto", font_color="black"
+        font_family=FONT, font_color="black"
     )
 
     fig.update_xaxes(

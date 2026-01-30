@@ -1,5 +1,5 @@
 import plotly.graph_objects as go
-from ..theme import COUNTRY_COLORS,CHART_TITLE_STYLE
+from ..theme import COUNTRY_COLORS,CHART_TITLE_STYLE, FONT
 
 def create_butterfly_chart(butterfly_data):
 
@@ -45,7 +45,7 @@ def create_butterfly_chart(butterfly_data):
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
         xaxis=dict(
-            title="Percentage of respondents",
+            title="Percentage of Respondents",
             tickmode='array',
             tickvals=list(range(-100, 101, 10)),
             ticktext=list(range(100, -1, -10)) + list(range(10, 101, 10))
@@ -61,7 +61,7 @@ def create_butterfly_chart(butterfly_data):
             xanchor="right",
             x=1
         ),
-        font_family="Roboto", font_color="black"
+        font_family=FONT, font_color="black"
     )
 
     return fig
