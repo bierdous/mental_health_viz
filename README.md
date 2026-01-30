@@ -38,22 +38,3 @@ pip install -r requirements.txt
 ```bash
 python -m src.app
 ```
-The app will start on `http://127.0.0.1:8050`.
-
-## 6. (Optional) Test Production Setup
-Render uses Gunicorn in production. You can test locally:
-```bash
-gunicorn app:server --bind 0.0.0.0:8080
-```
-Visit `http://localhost:8080`.
-
-## 7. Update Dependencies for Collaboration
-If you add or update packages, regenerate `requirements.txt`:
-```bash
-pip freeze > requirements.txt
-```
-Commit and push the updated file so your collaborator can sync.
-
-## Notes
-- Always activate the virtual environment before running the app.
-- Do **NOT** commit the `venv` folder. Use `.gitignore` to exclude it.

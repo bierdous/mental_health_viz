@@ -17,7 +17,7 @@ STACKED_CHART_COLOR = {
     },
 }
 
-FONT = "Roboto"
+FONT = "Murecho"
 FONT_TITLE="Murecho"
 
 CHART_TITLE_STYLE = dict(

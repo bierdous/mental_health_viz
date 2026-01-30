@@ -13,8 +13,8 @@ METRIC_OPTIONS = [
     {'value': 'work_interest_rate', 'label': 'Work Interest'},
     {'value': 'coping_struggles_rate', 'label': 'Coping Struggles'},
     {'value': 'social_weakness_rate', 'label': 'Social Weakness'},
-    {'value': 'care_options_available_rate', 'label': 'Awareness of Employer Offered Care Options'},
-    {'value': 'mental_health_interview_rate', 'label': 'Opening up About Mental Health at an Interview'},
+    {'value': 'care_options_available_rate', 'label': 'Awareness of Care Options at Work'},
+    {'value': 'mental_health_interview_rate', 'label': 'Disclosing M. Health at Interview'},
 ]
 
 
@@ -226,7 +226,8 @@ def create_layout(figures=None):
                                                                 clearable=False,
                                                                 className="dropdown-metric",
                                                                 maxHeight=300,
-                                                                placeholder="Select..."
+                                                                placeholder="Select...",
+                                                                optionHeight=40,
                                                             )
                                                         ]
                                                     )

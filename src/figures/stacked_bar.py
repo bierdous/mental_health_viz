@@ -42,17 +42,22 @@ def create_stacked_bar_chart(stacked_data):
                     name=interview,              # stack = mental_health_interview
                     marker_color=STACKED_CHART_COLOR['country1'][interview] if country['name'] == countries[0]['name'] else STACKED_CHART_COLOR['country2'][interview],
                     text=text_values,               # zobrazit text uvnitř segmentu
+                    textfont=dict(family=FONT,color="black"),
+                    hoverlabel=dict(
+                        font=dict(family=FONT, color="black"), # Changes the hover text color
+                        # bgcolor="black"         # Optional: specific background color for the tooltip
+                    ),
                     textposition='inside',          # pozice uvnitř
                     insidetextanchor='middle',      # zarovnání textu uprostřed segmentu
                     showlegend=False,               # legendu už nepotřebujeme
                     hovertemplate=(
-                        "Social weakness: %{y}<br>"
-                        "Interview: " + interview + "<br>"
-                        "Percentage: %{x}%<extra></extra>"
+                        "Social weakness: <b>%{y}</b><br>"
+                        "Mention MH at Interview: <b>" + interview + "</b><br>"
+                        "Share of Respondents: <b>%{x}%</b><extra></extra>"
                     )
                 ),
                 row=row,
-                col=1
+                col=1,
             )
 
     fig.update_layout(

@@ -29,7 +29,12 @@ def create_radar_chart(radar_data):
             fill=None,
             name=country['name'],
             marker_color=COUNTRY_COLORS['country1'] if country['name'] == countries[0]['name'] else COUNTRY_COLORS['country2'],
-            hovertemplate='%{theta}: %{r}%<extra></extra>'
+            hovertemplate='%{theta}: <b>%{r}%</b><extra></extra>',
+            textfont=dict(family=FONT, color="black"),
+            hoverlabel=dict(
+                font=dict(family=FONT, color="black"), # Changes the hover text color
+                # bgcolor="black"         # Optional: specific background color for the tooltip
+            ),
         ))
 
     fig.update_layout(

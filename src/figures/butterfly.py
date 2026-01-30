@@ -31,8 +31,13 @@ def create_butterfly_chart(butterfly_data):
                 legendgroup=country['name'],
                 name=country['name'],
                 marker_color=COUNTRY_COLORS['country1'] if country['name'] == countries[0]['name'] else COUNTRY_COLORS['country2'],
-                hovertemplate='%{y}: %{customdata}',
-                showlegend=True if status == 'employed' else False
+                hovertemplate='%{y}: <b>%{customdata}%</b>',
+                showlegend=True if status == 'employed' else False,
+                textfont=dict(family=FONT, color="black"),
+                hoverlabel=dict(
+                    font=dict(family=FONT, color="black"), # Changes the hover text color
+                    # bgcolor="black"         # Optional: specific background color for the tooltip
+                ),
             ))
 
     fig.update_layout(
@@ -45,7 +50,7 @@ def create_butterfly_chart(butterfly_data):
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
         xaxis=dict(
-            title="Percentage of Respondents",
+            title="Share of Respondents",
             tickmode='array',
             tickvals=list(range(-100, 101, 10)),
             ticktext=list(range(100, -1, -10)) + list(range(10, 101, 10))
